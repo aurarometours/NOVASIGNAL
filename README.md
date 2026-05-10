@@ -1,26 +1,25 @@
-# NovaSignal Site
+# NovaSignal Site — Vercel Ready
 
-React + TypeScript + Tailwind CSS single-page website built with Vite.
+This project has been checked with a clean install and production build.
 
-## Local setup
+## Vercel settings
+
+- Framework preset: Vite
+- Install command: `npm install`
+- Build command: `npm run build`
+- Output directory: `dist`
+
+## Local test
 
 ```bash
 npm install
-npm run dev
-```
-
-## Production build
-
-```bash
 npm run build
+npm run preview
 ```
 
-## Deploy on Vercel
+Notes:
 
-1. Push this folder to a GitHub repository.
-2. Go to Vercel → New Project.
-3. Import the GitHub repository.
-4. Framework preset: Vite.
-5. Build command: `npm run build`.
-6. Output directory: `dist`.
-7. Deploy.
+- `vercel.json` is included.
+- React TypeScript definitions are included.
+- `package-lock.json` is included for deterministic installs.
+- Node engine is set to `>=20.19.0` for Vite 8 compatibility.
