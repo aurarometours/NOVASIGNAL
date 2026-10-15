@@ -1774,7 +1774,7 @@ body{background:#040507}
         }`;
       const partFS = `
         uniform vec3 uA; uniform vec3 uM; uniform vec3 uB; uniform vec2 uP0; uniform vec2 uP1;
-        uniform float uLight; uniform float uTime; uniform float uAlpha;
+        uniform float uLight; uniform float uTime; uniform float uAlpha; uniform float uPulse; uniform vec3 uL;
         varying vec3 vN; varying vec3 vV; varying vec2 vP; varying vec3 vON;
         void main(){
           vec2 d = uP1 - uP0;
@@ -1794,6 +1794,12 @@ body{background:#040507}
           col += vec3(1.) * pow(sky, 8.) * .35 * (1. - front);
           float sweep = smoothstep(.06, 0., abs(fract((vP.x * .55 + vP.y) * .0015 - uTime * .06) - .5) - .44);
           col += vec3(1.) * sweep * front * .18;
+          float dif = max(dot(N, uL), 0.);
+          col *= .78 + .4 * dif;
+          vec3 H = normalize(uL + V);
+          float spc = pow(max(dot(N, H), 0.), 70.);
+          col += vec3(1.) * spc * (.55 + .7 * bevel);
+          col += base * uPulse * .85 + vec3(1.) * uPulse * .25 * (front + bevel);
           col *= uLight;
           // ghost state: unfocused parts keep only their lit edges
           float edge = clamp(bevel * 1.1 + fres * .45, 0., 1.);
@@ -1808,18 +1814,18 @@ body{background:#040507}
       scene.add(rig);
       const parts = PARTS.map((p, i) => {
         const shape = new THREE.Shape(p.pts.map(([x, y]) => toV(x, y)));
-        const geo = new THREE.ExtrudeGeometry(shape, { depth: 22, bevelEnabled: true, bevelThickness: 6, bevelSize: 3.6, bevelSegments: 5, steps: 1 });
-        geo.translate(0, 0, -11);
+        const geo = new THREE.ExtrudeGeometry(shape, { depth: 54, bevelEnabled: true, bevelThickness: 7, bevelSize: 4, bevelSegments: 6, steps: 1 });
+        geo.translate(0, 0, -27);
         const mat = new THREE.ShaderMaterial({
           vertexShader: partVS, fragmentShader: partFS, transparent: true,
-          uniforms: { uA: { value: C(p.a) }, uM: { value: C(p.m) }, uB: { value: C(p.b) }, uP0: { value: toV(...p.g[0]) }, uP1: { value: toV(...p.g[1]) }, uLight: { value: 1 }, uTime: { value: 0 }, uAlpha: { value: 1 } }
+          uniforms: { uA: { value: C(p.a) }, uM: { value: C(p.m) }, uB: { value: C(p.b) }, uP0: { value: toV(...p.g[0]) }, uP1: { value: toV(...p.g[1]) }, uLight: { value: 1 }, uTime: { value: 0 }, uAlpha: { value: 1 }, uPulse: { value: 0 }, uL: { value: new THREE.Vector3(.4, .6, .7).normalize() } }
         });
         const mesh = new THREE.Mesh(geo, mat);
         mesh.renderOrder = 10 + i;
         const holder = new THREE.Group();
         holder.add(mesh);
         core.add(holder);
-        return { holder, mesh, mat, off: p.off, rot: p.rot };
+        return { holder, mesh, mat, off: p.off, rot: p.rot, z: [46, 16, -30, 28, 0][i], pulse: 0 };
       });
 
       /* --- glow --- */
@@ -1897,6 +1903,77 @@ body{background:#040507}
       });
       scene.add(new THREE.Points(sg, starMat));
 
+      /* --- quantum space: a discreet lattice behind the symbol --- */
+      const QN = coarse ? 620 : 1500;
+      const qp = new Float32Array(QN * 3), qr = new Float32Array(QN);
+      for (let i = 0, n = 0; n < QN; i++) {
+        const y = 1 - (i / (QN * 2.2 - 1)) * 2, r = Math.sqrt(1 - y * y), th = i * 2.399963;
+        const x = Math.cos(th) * r, z = Math.sin(th) * r;
+        if (z > 0.15) continue;                 // keep only the hemisphere behind the symbol
+        const R = 24 + Math.random() * 3;
+        qp.set([x * R, y * R * .8, z * R], n * 3); qr[n] = Math.random(); n++;
+        if (i > QN * 3) break;
+      }
+      const qg = new THREE.BufferGeometry();
+      qg.setAttribute("position", new THREE.BufferAttribute(qp, 3)); qg.setAttribute("rnd", new THREE.BufferAttribute(qr, 1));
+      const quantumMat = new THREE.ShaderMaterial({
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uTime: { value: 0 }, uPR: { value: 1 }, uA: { value: 1 } },
+        vertexShader: `attribute float rnd; uniform float uTime; uniform float uPR; varying float vb; varying float vr;
+          void main(){ vr=rnd; vec4 mv=modelViewMatrix*vec4(position,1.);
+            float w = pow(max(0., sin(length(position.xy) * .32 - uTime * 1.1 + rnd * .6)), 14.);
+            float fire = step(.985, fract(rnd * 91.7 + uTime * .07 + rnd));
+            vb = .09 + w * .6 + fire * .9;
+            gl_PointSize = (1.4 + w * 2.2 + fire * 3.) * uPR * (24. / -mv.z) ;
+            gl_Position=projectionMatrix*mv; }`,
+        fragmentShader: `uniform float uA; varying float vb; varying float vr;
+          void main(){ float d=length(gl_PointCoord-.5); float a=smoothstep(.5,.0,d);
+            vec3 col = mix(vec3(.75,.92,1.), vec3(.25,.9,.8), vr);
+            gl_FragColor=vec4(col, a*vb*uA); }`
+      });
+      const quantum = new THREE.Points(qg, quantumMat);
+      scene.add(quantum);
+
+      /* --- signals: sparks born in the quantum space that fly into the symbol --- */
+      const SN = coarse ? 7 : 16, TR = 26;
+      const PCOL = [[1, 1, 1], [1, .55, .2], [1, .85, .35], [.45, .95, .95], [.25, .85, 1]];
+      const kp = new Float32Array(SN * TR * 3), kc = new Float32Array(SN * TR * 3), ks = new Float32Array(SN * TR), ka = new Float32Array(SN * TR);
+      const kg = new THREE.BufferGeometry();
+      kg.setAttribute("position", new THREE.BufferAttribute(kp, 3)); kg.setAttribute("color", new THREE.BufferAttribute(kc, 3));
+      kg.setAttribute("size", new THREE.BufferAttribute(ks, 1)); kg.setAttribute("alpha", new THREE.BufferAttribute(ka, 1));
+      const sparkMat = new THREE.ShaderMaterial({
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uPR: { value: 1 }, uA: { value: 1 } },
+        vertexShader: `attribute vec3 color; attribute float size; attribute float alpha; uniform float uPR; varying vec3 vc; varying float va;
+          void main(){ vc=color; va=alpha; vec4 mv=modelViewMatrix*vec4(position,1.); gl_PointSize=min(28., size*uPR*(30./-mv.z)); gl_Position=projectionMatrix*mv; }`,
+        fragmentShader: `uniform float uA; varying vec3 vc; varying float va;
+          void main(){ float d=length(gl_PointCoord-.5); float a=smoothstep(.5,0.,d); float core=smoothstep(.18,0.,d);
+            gl_FragColor=vec4(mix(vc,vec3(1.),core*.7), a*va*uA); }`
+      });
+      const sparks = new THREE.Points(kg, sparkMat);
+      sparks.frustumCulled = false;
+      scene.add(sparks);
+      const sig = [];
+      const V3 = THREE.Vector3;
+      const spawn = (s, now) => {
+        const dir = new V3(Math.random() - .5, (Math.random() - .5) * .8, -.35 - Math.random() * .65).normalize();
+        s.p0 = dir.multiplyScalar(16 + Math.random() * 12);
+        s.side = new V3(Math.random() - .5, Math.random() - .5, Math.random() - .5).multiplyScalar(9);
+        s.part = Math.floor(Math.random() * 5);
+        s.dur = 1.6 + Math.random() * 1.8;
+        s.t0 = now + Math.random() * 2.4;
+      };
+      for (let i = 0; i < SN; i++) { const s = {}; spawn(s, 0); s.t0 = Math.random() * 3; sig.push(s); }
+      const bez = (a, c, b, t, out) => { const u = 1 - t; return out.set(u * u * a.x + 2 * u * t * c.x + t * t * b.x, u * u * a.y + 2 * u * t * c.y + t * t * b.y, u * u * a.z + 2 * u * t * c.z + t * t * b.z); };
+      const tmpA = new V3(), tmpB = new V3(), tmpC = new V3(), tmpH = new V3();
+
+      /* --- bokeh: soft out-of-focus lights between camera and symbol --- */
+      const bokeh = new THREE.Group();
+      const BK = coarse ? 5 : 9, bcol = [0xff8a3a, 0xf6b73c, 0x3be0bf, 0x2cc3f3, 0xffffff];
+      for (let i = 0; i < BK; i++) {
+        const b = mkHalo(bcol[i % 5], .5 + Math.random() * 1.3, (Math.random() - .5) * 16, (Math.random() - .5) * 9, .05 + Math.random() * .07, bokeh, 3 + Math.random() * 6);
+        b.userData.ph = Math.random() * 6.28;
+      }
+      scene.add(bokeh);
+
       /* --- the tunnel: solid square rings, a wave of light, warp streaks --- */
       const TN = coarse ? 26 : 40, GAP = 1.55;
       const TZ = -4 - (TN - 1) * GAP - 7;
@@ -1909,9 +1986,9 @@ body{background:#040507}
         fragmentShader: `uniform float uAlpha; uniform float uTime; varying float vi; varying float vd; varying vec2 vl; ${SPEC}
           void main(){
             float wave = .35 + .65 * pow(.5 + .5 * sin(vi * .55 - uTime * 3.2), 3.);
-            float fade = smoothstep(70., 10., vd) * smoothstep(.6, 3.5, vd);
+            float fade = smoothstep(70., 12., vd) * smoothstep(2.5, 9., vd);
             vec3 col = mix(spec(vi * .045 + uTime * .04), vec3(1.), .18 + .35 * wave);
-            gl_FragColor = vec4(col * (.7 + wave), uAlpha * fade * (.35 + .65 * wave));
+            gl_FragColor = vec4(col * (.55 + .8 * wave), uAlpha * fade * (.22 + .6 * wave));
           }`
       });
       for (let i = 0; i < TN; i++) {
@@ -1957,7 +2034,7 @@ body{background:#040507}
         const hs = (m ? .3 : .54) * v.h / H0;
         const hx = m ? 0 : v.w * .24, hy = m ? v.h * .25 : -v.h * .01;
         const base = { cam: [0, 0, D], look: [0, 0, 0], rig: [hx, hy, 0], s: hs, ry: -0.35, rx: 0, split: 0, alpha: L5, light: 1, field: 1, tunnel: 0, halo: 1, flash: 0 };
-        if (name === "hero") return { ...base, rig: [0, m ? -v.h * .02 : -v.h * .015, 0], s: (m ? .34 : .6) * v.h / H0, ry: -0.42, rx: .04, alpha: L5.map(() => .9), field: .9, halo: 1.15 };
+        if (name === "hero") return { ...base, rig: [0, m ? -v.h * .02 : -v.h * .015, 0], s: (m ? .34 : .58) * v.h / H0, ry: -0.52, rx: .12, alpha: L5.map(() => .9), field: .9, halo: 1.15 };
         if (name === "manifest") return { ...base, cam: [m ? .5 : 1.2, .4, D], ry: .45, rx: -.05, split: .28, field: .8 };
         let mm = /^layer(\d)$/.exec(name);
         if (mm) {
@@ -2018,7 +2095,7 @@ body{background:#040507}
         const pr = Math.min(devicePixelRatio || 1, 2);
         renderer.setPixelRatio(pr); renderer.setSize(w, h, false);
         camera.aspect = w / h; camera.updateProjectionMatrix();
-        starMat.uniforms.uPR.value = pr;
+        starMat.uniforms.uPR.value = pr; quantumMat.uniforms.uPR.value = pr; sparkMat.uniforms.uPR.value = pr;
         measure();
       };
       addEventListener("resize", () => resize(false));
@@ -2027,6 +2104,7 @@ body{background:#040507}
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
       $$("details").forEach(d => d.addEventListener("toggle", measure));
 
+      const lightDir = new THREE.Vector3(.4, .6, .7).normalize();
       const clock = new THREE.Clock();
       let raf = 0, first = true, lastY = scrollY, vel = 0, prev = performance.now(), magnet = 0;
       const frame = now => {
@@ -2048,23 +2126,27 @@ body{background:#040507}
         camera.position.set(cur.cam[0] + mouse.x * .5 * idle, cur.cam[1] - mouse.y * .35 * idle, cur.cam[2]);
         lookAt.set(cur.look[0], cur.look[1], cur.look[2]);
         camera.lookAt(lookAt);
+        lightDir.set(.45 * Math.cos(t * .23) + mouse.x * 1.2, .55 + .2 * Math.sin(t * .31) - mouse.y * .8, .75).normalize().transformDirection(camera.matrixWorldInverse);
         rig.position.set(cur.rig[0], cur.rig[1] + Math.sin(t * .6) * .05 * idle, cur.rig[2]);
         rig.scale.setScalar(cur.s);
-        core.rotation.set(cur.rx + Math.sin(t * .35) * .035 * idle, cur.ry + Math.sin(t * .25) * .1 * idle + mouse.x * .22 * idle, 0);
+        core.rotation.set(cur.rx + Math.sin(t * .3) * .06 * idle - mouse.y * .18 * idle, cur.ry + Math.sin(t * .2) * .2 * idle + mouse.x * .4 * idle, 0);
         const near = tg.near === "hero" && moved ? Math.max(0, 1 - Math.hypot(mouse.x, mouse.y) / .2) : 0;
         magnet += ((near * near) * .28 - magnet) * (1 - Math.exp(-dt * 4));
         parts.forEach((p, i) => {
           const sp = cur.split + magnet, a = cur.alpha[i];
           const pop = (a > .9 && sp > .5) ? 70 * sp : 0;
-          p.holder.position.set(p.off[0] * sp * 95, p.off[1] * sp * 95, p.off[2] * sp * 95 + pop);
+          p.holder.position.set(p.off[0] * sp * 95, p.off[1] * sp * 95, p.off[2] * sp * 95 + pop + p.z * (1 + sp));
           p.holder.rotation.set(p.rot[0] * sp, p.rot[1] * sp + Math.sin(t * .5 + i) * .04 * sp * idle, p.rot[2] * sp);
           p.mat.uniforms.uLight.value = cur.light;
+          p.pulse *= Math.exp(-dt * 3.2);
+          p.mat.uniforms.uPulse.value = p.pulse;
+          p.mat.uniforms.uL.value.copy(lightDir);
           p.mat.uniforms.uAlpha.value = a;
           p.mat.depthWrite = a > .95;
           p.mat.uniforms.uTime.value = t;
         });
         field.rotation.y = t * .025 * idle;
-        lineMat.uniforms.uTime.value = t; lineMat.uniforms.uAlpha.value = cur.field;
+        lineMat.uniforms.uTime.value = t; lineMat.uniforms.uAlpha.value = cur.field * .55;
         halos.forEach(h => (h.material.opacity = h.userData.o * cur.halo));
         tunnel.visible = cur.tunnel > .01;
         ringMat.uniforms.uAlpha.value = cur.tunnel; ringMat.uniforms.uTime.value = t;
@@ -2073,6 +2155,31 @@ body{background:#040507}
         endFlash.material.opacity = cur.flash * (.55 + .25 * Math.sin(t * 2.2));
         const fs = 7 + cur.flash * 5; endFlash.scale.set(fs, fs, 1);
         starMat.uniforms.uTime.value = t;
+        quantum.position.copy(rig.position); quantum.rotation.y = t * .015;
+        quantumMat.uniforms.uTime.value = t; quantumMat.uniforms.uA.value = .35 + .65 * Math.min(1, cur.field);
+        bokeh.position.copy(rig.position);
+        bokeh.children.forEach(b => { b.material.opacity = b.userData.o * cur.halo * (.6 + .4 * Math.sin(t * .5 + b.userData.ph)); });
+        sparkMat.uniforms.uA.value = Math.min(1, cur.field * 1.2);
+        for (let i = 0; i < SN; i++) {
+          const sg2 = sig[i], e0 = (t - sg2.t0) / sg2.dur;
+          parts[sg2.part].holder.getWorldPosition(tmpB);
+          if (e0 >= 1) { parts[sg2.part].pulse = Math.min(1.2, parts[sg2.part].pulse + .8); spawn(sg2, t); }
+          const live = e0 > 0 && e0 < 1;
+          tmpA.copy(sg2.p0).multiplyScalar(rig.scale.x).add(rig.position);
+          tmpC.copy(tmpA).lerp(tmpB, .5).add(sg2.side);
+          const col = PCOL[sg2.part];
+          for (let k = 0; k < TR; k++) {
+            const j = (i * TR + k);
+            const e = Math.max(0, Math.min(1, e0) - k * .0085);
+            const ee = e * e * (1.6 - .6 * e);
+            bez(tmpA, tmpC, tmpB, ee, tmpH);
+            kp[j * 3] = tmpH.x; kp[j * 3 + 1] = tmpH.y; kp[j * 3 + 2] = tmpH.z;
+            kc[j * 3] = col[0]; kc[j * 3 + 1] = col[1]; kc[j * 3 + 2] = col[2];
+            ks[j] = (k === 0 ? 7.5 : 4) * (1 - k / TR);
+            ka[j] = live ? (1 - k / TR) * Math.min(1, e0 * 4) : 0;
+          }
+        }
+        kg.attributes.position.needsUpdate = kg.attributes.color.needsUpdate = kg.attributes.size.needsUpdate = kg.attributes.alpha.needsUpdate = true;
         renderer.render(scene, camera);
         const lm = /^layer(\d)$/.exec(tg.near);
         if (tag) {
@@ -2331,7 +2438,7 @@ body{background:#040507}
       if (d.website) return; // honeypot
       d.priority = d.prio; delete d.prio;
       d.has_site = d.site_url ? "si" : "no";
-      d.lang = NS.lang; d.source = "home-v7"; d.page = location.pathname;
+      d.lang = NS.lang; d.source = "home-v8"; d.page = location.pathname;
       lastMsg = compose(d);
       $$("[data-wa-lead]").forEach(a => (a.href = waLink(lastMsg)));
       btn.disabled = true; const label = btn.firstChild.textContent; btn.firstChild.textContent = T.sending || "Invio…";
