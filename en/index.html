@@ -813,6 +813,113 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
   .payoff h2{max-width:13ch}
 }
 @media (max-width:900px){.payoff-bg img{object-position:50% 30%}}
+
+/* =================== v5 · space =================== */
+#space{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block;opacity:0;transition:opacity 1.4s ease}
+.has3d #space{opacity:1}
+.space-veil{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(120% 80% at 50% 50%,transparent 55%,rgba(5,6,8,.55) 100%)}
+body{background:#050608}
+main,.foot,.hdr{position:relative;z-index:1}
+.hdr{position:fixed}
+.mbar{z-index:55}
+.sec,.hero,.final,.layers,.portal{background:transparent}
+.hero{background:none;min-height:100svh}
+.hero::before{background:linear-gradient(90deg,rgba(5,6,8,.75) 0,rgba(5,6,8,.25) 38%,rgba(5,6,8,0) 55%)}
+@media (max-width:900px){.hero::before{background:linear-gradient(180deg,rgba(5,6,8,0) 30%,rgba(5,6,8,.8) 60%)}}
+.hero-in{flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:24px;padding-block:clamp(110px,16vh,180px) clamp(110px,15vh,170px)}
+.hero h1{max-width:11ch}
+.hero .proof{gap:8px 22px}
+@media (max-width:900px){.hero-in{justify-content:flex-end;padding-top:46vh}}
+.core-static{display:none;position:absolute;right:12%;top:50%;width:min(22vw,300px);transform:translateY(-50%);filter:drop-shadow(0 0 30px rgba(255,150,60,.35)) drop-shadow(0 0 40px rgba(40,200,240,.3))}
+.no3d .core-static{display:block}
+@media (max-width:900px){.core-static{right:auto;left:50%;top:22%;width:min(36vw,150px);transform:translate(-50%,-50%)}}
+
+/* label that follows the focused part */
+.part-tag{position:fixed;left:0;top:0;z-index:2;pointer-events:none;font:500 12.5px/1 var(--f-mono);letter-spacing:.08em;color:var(--fg);white-space:pre;padding:8px 10px 8px 22px;margin:-15px 0 0 34px;border-radius:999px;background:rgba(5,6,8,.55);backdrop-filter:blur(6px);border:1px solid var(--line-2);opacity:0;transition:opacity .4s}
+.part-tag::before{content:"";position:absolute;left:-34px;top:50%;width:40px;height:1px;background:var(--fg-2)}
+.part-tag::after{content:"";position:absolute;left:9px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--aqua)}
+.part-tag.on{opacity:1}
+
+/* the five layers */
+.act{min-height:100vh;display:flex;align-items:center;padding-block:12vh}
+.act .col{max-width:480px;display:grid;gap:18px}
+.act-intro .col{max-width:620px}
+.act h3{font-size:clamp(30px,3.6vw,52px);line-height:1.02;letter-spacing:-.045em}
+.act p{color:var(--fg-2);font-size:clamp(16px,1.25vw,18.5px);max-width:46ch}
+.lay-n{display:flex;align-items:baseline;gap:12px;font-size:15px;color:var(--fg-2)}
+.lay-n b{font:500 13px/1 var(--f-mono);color:var(--gold);letter-spacing:.06em}
+.lay-list{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.lay-list li{padding:13px 0;border-bottom:1px solid var(--line);font-size:15.5px;color:var(--fg)}
+.act .btn{justify-self:start;margin-top:10px}
+@media (max-width:900px){
+  .act{align-items:flex-end;min-height:110vh;padding-bottom:10vh}
+  .act .col{background:rgba(5,6,8,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:22px;border-radius:22px;border:1px solid var(--line)}
+  .act-intro .col{background:none;backdrop-filter:none;border:0;padding:0}
+}
+
+/* portal + products */
+.act-portal{min-height:120vh;align-items:center}
+.center{text-align:center;display:grid;justify-items:center;gap:22px}
+.act-portal h2{font-size:clamp(38px,5.6vw,88px);max-width:14ch}
+.act-products{min-height:120vh}
+.prods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;width:100%}
+.prod{display:grid;gap:10px;align-content:start;padding:24px 22px 22px;border-radius:20px;text-decoration:none;color:var(--fg);background:rgba(10,12,16,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line-2);transition:border-color .3s,transform .4s var(--ease),background .3s;min-height:250px}
+.prod .gl{width:28px;height:28px;--px:var(--gold);margin-bottom:18px}
+.prod:nth-child(2) .gl{--px:var(--aqua)}.prod:nth-child(3) .gl{--px:var(--cyan)}.prod:nth-child(4) .gl{--px:var(--orange)}
+.prod b{font-size:21px;font-weight:600;letter-spacing:-.03em}
+.prod span{font-size:14.5px;color:var(--fg-2);line-height:1.5}
+.prod em{font-style:normal;font-size:14px;margin-top:auto;padding-top:12px;color:var(--fg);display:inline-flex;gap:8px}
+.prod em::after{content:"";width:16px;height:1px;background:currentColor;align-self:center;transition:width .3s var(--ease)}
+.prod:hover{border-color:var(--fg);transform:translateY(-4px);background:rgba(14,16,22,.75)}
+.prod:hover em::after{width:28px}
+@media (max-width:1000px){.prods{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.prods{grid-template-columns:1fr}.prod{min-height:0}}
+.act-products .unsure{text-align:center}
+
+/* content sections: clean, left column, the docked symbol on the right */
+.sec .sec-head{max-width:720px}
+.sec-head h2{font-size:clamp(36px,4.6vw,68px)}
+#differenza .lens,#concept .stack,.plans,.contact,.faq{position:relative}
+.world{background:rgba(10,12,16,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.w-n{font-size:13px}
+
+/* method: five steps, one per part of the symbol */
+.steps5{list-style:none;margin:0;padding:0;display:grid;gap:0;max-width:760px;counter-reset:s;border-top:1px solid var(--line)}
+.steps5 li{counter-increment:s;display:grid;grid-template-columns:56px minmax(0,1fr);gap:6px 18px;padding:34px 0;border-bottom:1px solid var(--line);min-height:34vh;align-content:center}
+.steps5 li::before{content:counter(s,decimal-leading-zero);grid-row:1/span 3;font:500 13px/1 var(--f-mono);color:var(--gold);padding-top:4px}
+.steps5 .when{font:500 12px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute);display:flex;gap:10px;align-items:center}
+.steps5 h3{font-size:clamp(22px,2.2vw,30px);letter-spacing:-.035em;margin-top:4px}
+.steps5 p{color:var(--fg-2);max-width:52ch}
+
+/* pricing: lighter */
+.plan{background:rgba(10,12,16,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.plan.hot{background:linear-gradient(rgba(16,19,25,.92),rgba(16,19,25,.92)) padding-box,var(--spec) border-box}
+.incl{display:flex;gap:14px;align-items:flex-start;margin-top:18px;color:var(--fg-2);font-size:15px;max-width:860px}
+.incl .gl{color:var(--fg);--px:var(--aqua);margin-top:1px}
+.incl b{color:var(--fg);font-weight:600}
+.roi-d{margin-top:34px;border:1px solid var(--line-2);border-radius:22px;background:rgba(10,12,16,.78);backdrop-filter:blur(12px)}
+.roi-d summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:22px 24px;font-size:17px;font-weight:500;letter-spacing:-.01em}
+.roi-d summary::-webkit-details-marker{display:none}
+.roi-d summary .gl{--px:var(--gold)}
+.roi-d summary i{margin-left:auto;width:28px;height:28px;border-radius:50%;border:1px solid var(--line-2);position:relative;flex:none}
+.roi-d summary i::before,.roi-d summary i::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:1.5px;margin:-.75px 0 0 -5px;background:var(--fg)}
+.roi-d summary i::after{transform:rotate(90deg);transition:transform .3s}
+.roi-d[open] summary i::after{transform:rotate(0)}
+.roi-d .roi{margin:0;border:0;border-top:1px solid var(--line);border-radius:0 0 22px 22px;background:transparent}
+.panel{background:rgba(10,12,16,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.direct > *{background:rgba(10,12,16,.78)}
+.qa{background:transparent}
+
+/* final */
+.final{min-height:100vh;display:flex;align-items:center;padding-block:14vh}
+.final .col{max-width:620px;display:grid;gap:22px}
+.final h2{font-size:clamp(38px,5.4vw,84px);max-width:13ch}
+.final .cta-row{margin-top:8px;animation:none}
+@media (max-width:900px){.final{align-items:flex-end}}
+.foot{background:#050608}
+
+.act-portal{align-items:flex-start;padding-top:15vh}
+.act > .wrap,.final > .wrap{width:100%}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "NovaSignal", "url": "https://novasignal.it/en/", "email": "studio@novasignal.it", "telephone": "+39 320 689 1014", "image": "https://aurarometours.github.io/NOVASIGNAL/assets/og-image.jpg", "address": {"@type": "PostalAddress", "addressLocality": "Roma", "addressCountry": "IT"}, "areaServed": "Worldwide", "priceRange": "€1.200 – €4.000+", "inLanguage": ["it", "en"], "makesOffer": [{"@type": "Offer", "name": "Essential", "price": "1200", "priceCurrency": "EUR"}, {"@type": "Offer", "name": "Signature", "price": "2000", "priceCurrency": "EUR"}, {"@type": "Offer", "name": "Bespoke", "price": "4000", "priceCurrency": "EUR", "priceSpecification": {"@type": "PriceSpecification", "minPrice": "4000", "priceCurrency": "EUR"}}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What does a site actually cost?", "acceptedAnswer": {"@type": "Answer", "text": "Essential €1,200, Signature €2,000 all-in (or 2 payments of €1,000), bespoke projects from €4,000. No mandatory fees after launch."}}, {"@type": "Question", "name": "How does the free preview work?", "acceptedAnswer": {"@type": "Answer", "text": "We study your business and within a few days show you a real draft of your home page with your content. If it doesn’t convince you, that’s it: no cost, no commitment."}}, {"@type": "Question", "name": "How long until the site is live?", "acceptedAnswer": {"@type": "Answer", "text": "For Signature, 2–3 weeks on average from kick-off, depending on how quickly we gather copy and photos. The preview comes much sooner."}}, {"@type": "Question", "name": "Do I need copy, photos and video ready?", "acceptedAnswer": {"@type": "Answer", "text": "No. We write the copy with you and, if you have no material, use licensed professional photos and video or advise you on producing them."}}, {"@type": "Question", "name": "Do I own the domain and the site?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, always. The domain is registered to you and the site is yours. No lock-in, no mandatory subscription."}}, {"@type": "Question", "name": "How does payment work?", "acceptedAnswer": {"@type": "Answer", "text": "First you see the free preview. If you like it, we start with 50%; the balance is due only on delivery, once the site is live and approved by you."}}, {"@type": "Question", "name": "Do you work outside Italy?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. We work with businesses in Italy, Europe, the UK, the US and the UAE, fully remote, in Italian and English."}}, {"@type": "Question", "name": "What happens after launch?", "acceptedAnswer": {"@type": "Answer", "text": "You get 30 days of included support for changes and tweaks. After that, ask for updates whenever you need them, with no fixed fees."}}]}</script>
 </head>
@@ -826,6 +933,10 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
     <linearGradient id="nvT2" x1="120" y1="305" x2="250" y2="500" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#9FE36B"/><stop offset=".45" stop-color="#36E2BE"/><stop offset="1" stop-color="#22C3F3"/></linearGradient>
   </defs>
 </svg>
+
+<canvas id="space" aria-hidden="true"></canvas>
+<div class="space-veil" aria-hidden="true"></div>
+<span class="part-tag" id="part-tag" aria-hidden="true"></span>
 
 <a class="skip" href="#main">Skip to content</a>
 <div class="prog" aria-hidden="true"></div>
@@ -844,9 +955,9 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
     </button>
     <a class="wm" href="#top">NovaSignal</a>
     <nav class="nav" aria-label="Main navigation">
+      <a href="#livelli">The signal</a>
       <a href="#servizi">Services</a>
       <a href="#concept">Concepts</a>
-      <a href="#superficie">Under the surface</a>
       <a href="#prezzi">Pricing</a>
       <a href="#faq">FAQ</a>
     </nav>
@@ -864,10 +975,10 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
     <ul class="cmd-list" id="cmd-list" role="listbox">
       <li><a href="#contatti" data-k="anteprima preview contatti contact"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9.5L4 20.5z"/><path d="M12.5 10.5h4"/><rect class="px" x="7.5" y="9" width="3" height="3"/></svg><span>Get your free preview</span><em>Action</em></a></li>
       <li><a href="#prezzi" data-k="prezzi pricing pacchetti costi"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20h17"/><path d="M5 16l5-5 3 3 6.5-6.5"/><rect class="px" x="17" y="4.5" width="3" height="3"/></svg><span>Pricing</span><em>Section</em></a></li>
-      <li><a href="#roi" data-k="roi calcolatore calculator ripaga"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-8-8"/><path d="M16 12a4 4 0 1 1-4-4"/><path d="M12 12l6-6"/><rect class="px" x="17" y="3" width="4" height="4"/></svg><span>Calculate the payback</span><em>Action</em></a></li>
+      <li><a href="#roi" data-k="roi calcolatore calculator ripaga" data-open-roi><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-8-8"/><path d="M16 12a4 4 0 1 1-4-4"/><path d="M12 12l6-6"/><rect class="px" x="17" y="3" width="4" height="4"/></svg><span>Calculate the payback</span><em>Action</em></a></li>
+      <li><a href="#livelli" data-k="livelli layers segnale signal"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5 13 3.5v7z"/><path d="M19.5 13.5 11 20.5v-7z"/><rect x="13" y="10.5" width="6.5" height="3"/><rect class="px" x="4.5" y="10.5" width="3" height="3"/></svg><span>The signal</span><em>Section</em></a></li>
       <li><a href="#servizi" data-k="servizi services siti app brand"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 20.5 8 12 12.5 3.5 8z"/><path d="M3.5 12 12 16.5 20.5 12M3.5 16 12 20.5 20.5 16"/></svg><span>Services</span><em>Section</em></a></li>
       <li><a href="#concept" data-k="concept mondi worlds esempi"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><rect class="px" x="10.5" y="10.5" width="3" height="3"/></svg><span>Concepts</span><em>Section</em></a></li>
-      <li><a href="#superficie" data-k="superficie surface codice code sistema"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 7.5 4 12l4.5 4.5M15.5 7.5 20 12l-4.5 4.5M13.5 5l-3 14"/></svg><span>Under the surface</span><em>Section</em></a></li>
       <li><a href="#metodo" data-k="metodo process tempi"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="10" width="8" height="8" rx="1.5" opacity=".4"/><rect x="7.5" y="7" width="8" height="8" rx="1.5" opacity=".7"/><rect x="12" y="4" width="8" height="8" rx="1.5"/><rect class="px" x="17.5" y="17.5" width="3" height="3"/></svg><span>Process</span><em>Section</em></a></li>
       <li><a href="#faq" data-k="faq domande questions"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9.5L4 20.5z"/><path d="M12.5 10.5h4"/><rect class="px" x="7.5" y="9" width="3" height="3"/></svg><span>FAQ</span><em>Section</em></a></li>
       <li><a data-wa href="https://wa.me/393206891014" target="_blank" rel="noopener" data-k="whatsapp scrivi message"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><rect class="px" x="10.5" y="16.5" width="3" height="3"/></svg><span>Message us on WhatsApp</span><em>WhatsApp</em></a></li>
@@ -879,44 +990,24 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
 
 <main id="main">
 
-<!-- 1 · IDEA -->
-<section class="hero" id="top" data-stage="1" aria-labelledby="h-hero">
-  <canvas id="field" aria-hidden="true"></canvas>
+<!-- HERO -->
+<section class="hero" id="top" data-k="hero" data-stage="1" aria-labelledby="h-hero">
+  <div class="core-static" aria-hidden="true">
+    <svg viewBox="0 0 345 510"><path d="M0 205 245 0v205z" fill="url(#nvT1)"/><rect x="0" y="205" width="100" height="100" fill="url(#nvW)"/><rect x="100" y="205" width="145" height="100" fill="url(#nvB)"/><rect x="245" y="205" width="100" height="100" fill="url(#nvC)"/><path d="M345 305 100 510V305z" fill="url(#nvT2)"/></svg>
+  </div>
   <div class="wrap hero-in">
-    <div class="hero-copy">
-      <p class="status"><span class="dot" aria-hidden="true"></span>Now booking <span data-month>—</span></p>
-      <h1 id="h-hero">Websites that make them <em>choose you.</em></h1>
-      <p class="lede">Custom websites, web apps and brands for businesses that want to look like, and be, the reference in their field. We show you your new site before you pay a cent.</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="#contatti" data-track="cta_hero">Get your free preview<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-        <a class="btn btn-ghost" href="#differenza" data-track="cta_hero_diff">See the difference</a>
-      </div>
-      <ul class="proof">
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Free preview</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Live in 2–3 weeks</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>From €1,200, all-in</li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Domain and site in your name</li>
-      </ul>
+    <p class="status"><span class="dot" aria-hidden="true"></span>Now booking <span data-month>—</span></p>
+    <h1 id="h-hero">Websites that make them <em>choose you.</em></h1>
+    <p class="lede">Custom websites, web apps and brands for businesses that want to look like, and be, the reference in their field. We show you your new site before you pay a cent.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#contatti" data-track="cta_hero">Get your free preview<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="btn btn-ghost" href="#prezzi" data-track="cta_hero_prices">See pricing</a>
     </div>
-    <div class="core-wrap">
-      <div class="core" id="core" tabindex="0" role="button" aria-pressed="false" aria-describedby="core-tags" aria-label="The NovaSignal symbol: open the five layers">
-        <div class="core-3d">
-          <svg class="cp cp-2" viewBox="0 0 345 510" aria-hidden="true"><path d="M0 205 245 0v205z" fill="url(#nvT1)"/></svg>
-          <svg class="cp cp-3" viewBox="0 0 345 510" aria-hidden="true"><rect x="100" y="205" width="145" height="100" fill="url(#nvB)" opacity=".92"/></svg>
-          <svg class="cp cp-1" viewBox="0 0 345 510" aria-hidden="true"><rect x="0" y="205" width="100" height="100" fill="url(#nvW)"/></svg>
-          <svg class="cp cp-4" viewBox="0 0 345 510" aria-hidden="true"><rect x="245" y="205" width="100" height="100" fill="url(#nvC)"/></svg>
-          <svg class="cp cp-5" viewBox="0 0 345 510" aria-hidden="true"><path d="M345 305 100 510V305z" fill="url(#nvT2)"/></svg>
-        </div>
-        <ul class="core-tags" id="core-tags">
-          <li class="ct ct-1"><b>Idea</b><span>Your goal, the starting point</span></li>
-          <li class="ct ct-2"><b>Brand</b><span>Logo, colour, tone of voice</span></li>
-          <li class="ct ct-3"><b>Strategy</b><span>Offer, pages, journey</span></li>
-          <li class="ct ct-4"><b>Product</b><span>Interface, UX, content</span></li>
-          <li class="ct ct-5"><b>Technology</b><span>Code, data, automation</span></li>
-        </ul>
-      </div>
-      <p class="core-hint" aria-hidden="true"><span class="h-fine">Hover the symbol: every site has five layers</span><span class="h-touch">Tap the symbol: every site has five layers</span></p>
-    </div>
+    <ul class="proof">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Free preview</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Live in 2–3 weeks</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>From €1,200, all-in</li>
+    </ul>
   </div>
   <div class="hero-meta" aria-hidden="true">
     <div class="wrap">
@@ -927,17 +1018,67 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
   </div>
 </section>
 
-<!-- la differenza -->
-<section class="sec" id="differenza" data-stage="1" aria-labelledby="h-diff">
-  <div class="wrap">
-    <div class="sec-head split">
-      <div class="sh">
-        <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><rect class="px" x="10.5" y="10.5" width="3" height="3"/></svg>The difference</span>
-        <h2 id="h-diff" class="rv-h">Your customer decides in three seconds. <em>Drag.</em></h2>
+<!-- I CINQUE LIVELLI: il simbolo si apre -->
+<section class="layers" id="livelli" aria-labelledby="h-lay">
+  <div class="act act-intro" data-k="manifest" data-stage="1">
+    <div class="wrap"><div class="col">
+      <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5 13 3.5v7z"/><path d="M19.5 13.5 11 20.5v-7z"/><rect x="13" y="10.5" width="6.5" height="3"/><rect class="px" x="4.5" y="10.5" width="3" height="3"/></svg>The signal</span>
+      <h2 id="h-lay">Every project starts as <em>a signal.</em></h2>
+      <p class="lede">Our symbol is made of five parts. They are the five things we build for you, in the order we build them.</p>
+    </div></div>
+  </div>
+  <div class="act" data-k="layer0" data-stage="1"><div class="wrap"><div class="col">
+    <span class="lay-n"><b>01</b> Idea</span><h3>We start from your goal.</h3><p>What should happen when a customer lands on your site: a call, a booking, a quote request. Everything else follows from that.</p>
+    <ul class="lay-list"><li>Goal and audience</li><li>Competitor review</li><li>Free preview of your site</li></ul>
+  </div></div></div>
+  <div class="act" data-k="layer1" data-stage="2"><div class="wrap"><div class="col">
+    <span class="lay-n"><b>02</b> Brand</span><h3>We make you recognisable.</h3><p>Logo, colour, type and tone of voice: an identity people remember without reading the name.</p>
+    <ul class="lay-list"><li>Visual identity</li><li>Tone of voice</li><li>Brand guidelines</li></ul>
+  </div></div></div>
+  <div class="act" data-k="layer2" data-stage="3"><div class="wrap"><div class="col">
+    <span class="lay-n"><b>03</b> Strategy</span><h3>Every page has one job.</h3><p>Structure, copy and flow take the visitor to action in the fewest possible steps.</p>
+    <ul class="lay-list"><li>Page architecture</li><li>Copy that sells</li><li>Local SEO and Google Business</li></ul>
+  </div></div></div>
+  <div class="act" data-k="layer3" data-stage="4"><div class="wrap"><div class="col">
+    <span class="lay-n"><b>04</b> Product</span><h3>An interface that explains itself.</h3><p>Custom design and motion that explains, flawless on the phone, where almost every customer arrives.</p>
+    <ul class="lay-list"><li>UX and interface</li><li>Motion and interaction</li><li>Mobile first</li></ul>
+  </div></div></div>
+  <div class="act" data-k="layer4" data-stage="5"><div class="wrap"><div class="col">
+    <span class="lay-n"><b>05</b> Technology</span><h3>Fast, secure, measurable.</h3><p>Hand-written code, sub-second loading, enquiries and stats in one dashboard.</p>
+    <ul class="lay-list"><li>Build and performance</li><li>Automation and integrations</li><li>Analytics and support</li></ul>
+    <a class="btn btn-primary" href="#contatti" data-track="cta_layers">Get your free preview<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+  </div></div></div>
+</section>
+
+<!-- ATTRAVERSO IL SEGNALE: cosa costruiamo -->
+<section class="portal" id="servizi" aria-labelledby="h-serv">
+  <div class="act act-portal" data-k="portal">
+    <div class="wrap center">
+      <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 20.5 8 12 12.5 3.5 8z"/><path d="M3.5 12 12 16.5 20.5 12M3.5 16 12 20.5 20.5 16"/></svg>What we build</span>
+      <h2 id="h-serv">Go through the signal. <em>Choose what to build.</em></h2>
+    </div>
+  </div>
+  <div class="act act-products" data-k="tunnel">
+    <div class="wrap">
+      <div class="prods">
+        <a class="prod" href="#contatti" data-product="sito" data-track="serv_sito"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.8 2.6 14.2 0 17M12 3.5c-2.6 2.8-2.6 14.2 0 17"/><rect class="px" x="17.5" y="17.5" width="3" height="3"/></svg><b>Websites</b><span>Cinematic, very fast sites written to bring in calls, bookings and enquiries. The product most clients start with.</span><em>Start here</em></a>
+        <a class="prod" href="#contatti" data-product="webapp" data-track="serv_webapp"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7.5 12 3.5l8 4v9l-8 4-8-4z"/><path d="M4 7.5l8 4 8-4M12 11.5v9"/><rect class="px" x="1.5" y="1.5" width="3" height="3"/></svg><b>Web apps & SaaS</b><span>Product interfaces with accounts, data and payments. From clickable prototype to launch.</span><em>Start here</em></a>
+        <a class="prod" href="#contatti" data-product="app" data-track="serv_app"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><rect class="px" x="10.5" y="16.5" width="3" height="3"/></svg><b>Mobile apps</b><span>Apps with natural gestures and store release, or installable PWAs that skip the stores.</span><em>Start here</em></a>
+        <a class="prod" href="#contatti" data-product="brand" data-track="serv_brand"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5 13 3.5v7z"/><path d="M19.5 13.5 11 20.5v-7z"/><rect x="13" y="10.5" width="6.5" height="3"/><rect class="px" x="4.5" y="10.5" width="3" height="3"/></svg><b>Brand & logo</b><span>Logo, palette, type and tone of voice in one system that holds up on site, social and signage.</span><em>Start here</em></a>
       </div>
+      <p class="unsure">Not sure what you need yet? <a href="#contatti" data-track="unsure_builder">Start from the idea: three questions, 30 seconds</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- la differenza -->
+<section class="sec" id="differenza" data-k="dock" data-stage="2" aria-labelledby="h-diff">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><rect class="px" x="10.5" y="10.5" width="3" height="3"/></svg>The difference</span>
+      <h2 id="h-diff">Your customer decides in three seconds. <em>Drag.</em></h2>
       <p class="lede">Same restaurant, same information. On the left a NovaSignal site, on the right what still fills half of Google. Someone searching “restaurant near me” compares two results and books wherever it’s easiest.</p>
     </div>
-
     <div class="lens" id="lens">
       <div class="lens-old" aria-hidden="true">
         <div class="old">
@@ -976,86 +1117,18 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
       <label class="sr" for="lens-range">Before and after: move to reveal the NovaSignal site</label>
       <input class="sr" id="lens-range" type="range" min="0" max="100" value="52">
     </div>
-    <p class="honest">Osteria Lume is a made-up example used to show the comparison.</p>
-
-    <div class="lens-stats">
-      <div><b class="num">5.1 s → 0.9 s</b><span>Load time on 4G: a slow site loses the customer before it even appears.</span></div>
-      <div><b>1 tap</b><span>to book, call or message on WhatsApp. No forms to hunt for.</span></div>
-      <div><b>Mobile first</b><span>Designed for the phone first, where almost all your customers arrive.</span></div>
-    </div>
+    <p class="honest">Osteria Lume is a made-up example used to show the comparison. On 4G the typical site opens in 5.1 s, ours in under a second.</p>
   </div>
 </section>
 
-<!-- 2 · BRAND: cosa costruiamo -->
-<section class="sec" id="servizi" data-stage="2" aria-labelledby="h-serv">
+<!-- concept -->
+<section class="sec" id="concept" data-k="dock" data-stage="2" aria-labelledby="h-conc">
   <div class="wrap">
-    <div class="sec-head split">
-      <div class="sh">
-        <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 20.5 8 12 12.5 3.5 8z"/><path d="M3.5 12 12 16.5 20.5 12M3.5 16 12 20.5 20.5 16"/></svg>What we build</span>
-        <h2 id="h-serv" class="rv-h">Four products. <em>One studio.</em></h2>
-      </div>
-      <p class="lede">Design, development and launch under one roof, with one direct contact. What you see moving in these cards is code, not a video.</p>
-    </div>
-    <div class="bento">
-      <article class="card c-site">
-        <span class="k"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.8 2.6 14.2 0 17M12 3.5c-2.6 2.8-2.6 14.2 0 17"/><rect class="px" x="17.5" y="17.5" width="3" height="3"/></svg>Corporate · Portfolio · E-commerce</span>
-        <div class="viz v-site" aria-hidden="true">
-          <div class="v-bar"><i></i><i></i><i></i><u>latuaattivita.com</u></div>
-          <div class="v-scroll"><div class="v-page"><div class="v-hero"></div><div class="v-lines"><i></i><i></i><i></i><b></b></div></div><div class="v-row"><i></i><i></i><i></i></div><div class="v-cta"></div></div>
-        </div>
-        <h3>Websites</h3>
-        <p>Cinematic, very fast sites written to bring in calls, bookings and enquiries. The product most clients start with.</p>
-        <a class="go" href="#contatti" data-product="sito" data-track="serv_sito">Start here <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </article>
-      <article class="card c-app">
-        <span class="k"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7.5 12 3.5l8 4v9l-8 4-8-4z"/><path d="M4 7.5l8 4 8-4M12 11.5v9"/><rect class="px" x="1.5" y="1.5" width="3" height="3"/></svg>Dashboards · Portals · Internal tools</span>
-        <div class="viz v-app" aria-hidden="true">
-          <div class="v-kpis"><div>MRR<b>€48,2k</b></div><div>Users<b>2.914</b></div><div>Churn<b>1,8%</b></div></div>
-          <div class="v-chart"><svg viewBox="0 0 300 80" preserveAspectRatio="none"><defs><linearGradient id="gA" x1="0" x2="1"><stop offset="0" stop-color="#F6B73C"/><stop offset=".6" stop-color="#3BE0BF"/><stop offset="1" stop-color="#2CC3F3"/></linearGradient><linearGradient id="gF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3BE0BF" stop-opacity=".22"/><stop offset="1" stop-color="#3BE0BF" stop-opacity="0"/></linearGradient></defs><path d="M0 64 L30 58 L60 61 L90 48 L120 52 L150 38 L180 41 L210 27 L240 30 L270 14 L300 10 L300 80 L0 80Z" fill="url(#gF)"/><path class="ln" d="M0 64 L30 58 L60 61 L90 48 L120 52 L150 38 L180 41 L210 27 L240 30 L270 14 L300 10" fill="none" stroke="url(#gA)" stroke-width="2.2" vector-effect="non-scaling-stroke"/><circle cx="300" cy="10" r="3.5" fill="#2CC3F3"/></svg></div>
-          <span class="kbd">⌘K</span>
-          <span class="v-note">Sample data</span>
-        </div>
-        <h3>Web apps & SaaS</h3>
-        <p>Product interfaces with accounts, data and payments. From clickable prototype to launch.</p>
-        <a class="go" href="#contatti" data-product="webapp" data-track="serv_webapp">Start here <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </article>
-      <article class="card c-mob">
-        <span class="k"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><rect class="px" x="10.5" y="16.5" width="3" height="3"/></svg>iOS · Android · PWA</span>
-        <div class="viz v-mob" aria-hidden="true"><div class="phone"><i></i><i></i><i></i><span class="sheet"></span><span class="tap"></span></div></div>
-        <h3>Mobile apps</h3>
-        <p>Apps with natural gestures and store release, or installable PWAs that skip the stores.</p>
-        <a class="go" href="#contatti" data-product="app" data-track="serv_app">Start here <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </article>
-      <article class="card c-brand">
-        <span class="k"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5 13 3.5v7z"/><path d="M19.5 13.5 11 20.5v-7z"/><rect x="13" y="10.5" width="6.5" height="3"/><rect class="px" x="4.5" y="10.5" width="3" height="3"/></svg>Identity · Naming · Guidelines</span>
-        <div class="viz v-brand" aria-hidden="true">
-          <svg class="bm" viewBox="-40 -30 425 570">
-            <g class="bm-grid"><path d="M0 -20V530M100 -20V530M245 -20V530M345 -20V530M-30 0H375M-30 205H375M-30 305H375M-30 510H375"/></g>
-            <g class="bm-line"><path d="M0 205 245 0v205zM0 205h100v100H0zM100 205h145v100H100zM245 205h100v100H245zM345 305 100 510V305z"/></g>
-            <g class="bm-fill"><path d="M0 205 245 0v205z" fill="url(#nvT1)"/><rect x="0" y="205" width="100" height="100" fill="url(#nvW)"/><rect x="100" y="205" width="145" height="100" fill="url(#nvB)"/><rect x="245" y="205" width="100" height="100" fill="url(#nvC)"/><path d="M345 305 100 510V305z" fill="url(#nvT2)"/></g>
-          </svg>
-          <div class="bm-word">NovaSignal<span>Grid, shape, colour</span></div>
-        </div>
-        <h3>Brand & logo</h3>
-        <p>Logo, palette, type and tone of voice in one system that holds up on site, social and signage.</p>
-        <a class="go" href="#contatti" data-product="brand" data-track="serv_brand">Start here <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </article>
-    </div>
-    <p class="unsure">Not sure what you need yet? <a href="#contatti" data-track="unsure_builder">Start from the idea: three questions, 30 seconds</a></p>
-  </div>
-</section>
-
-<!-- selected worlds -->
-<section class="sec" id="concept" data-stage="2" aria-labelledby="h-conc">
-  <div class="wrap">
-    <div class="sec-head split">
-      <div class="sh">
-        <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><rect class="px" x="10.5" y="10.5" width="3" height="3"/></svg>Concepts</span>
-        <h2 id="h-conc" class="rv-h">Directions <em>ready to go.</em></h2>
-      </div>
+    <div class="sec-head">
+      <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><rect class="px" x="10.5" y="10.5" width="3" height="3"/></svg>Concepts</span>
+      <h2 id="h-conc">Directions <em>ready to go.</em></h2>
       <p class="lede">Five visual worlds, one per sector. Pick one and we bring it to your colours, content and goals.</p>
     </div>
-
     <div class="stack" id="stack">
       <article class="world" style="--i:0">
         <div class="mock" aria-hidden="true">
@@ -1070,14 +1143,12 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
           </div>
         </div>
         <div class="w-cap">
-          <span class="w-n">01 / 05</span>
+          <span class="w-n">01 / 05 · Real estate</span>
           <h3>Zenith <em>Realty</em></h3>
           <p>Instant search, elegant listings and a direct line to the agent. Homes sell to the eyes first.</p>
-          <div class="tags"><span>Real estate</span><span>Video tour</span><span>Lead form</span></div>
           <a class="btn btn-ghost" href="#contatti" data-direction="Zenith Realty" data-product="sito" data-track="world_zenith">I want this direction</a>
         </div>
       </article>
-
       <article class="world" style="--i:1">
         <div class="mock" aria-hidden="true">
           <div class="mk emb">
@@ -1086,14 +1157,12 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
           </div>
         </div>
         <div class="w-cap">
-          <span class="w-n">02 / 05</span>
+          <span class="w-n">02 / 05 · Creative studios</span>
           <h3>EMBER<em>.dsgn</em></h3>
           <p>Giant type, moving light and scroll transitions. A portfolio remembered like a trailer.</p>
-          <div class="tags"><span>Creative studios</span><span>Big type</span><span>3D loop</span></div>
           <a class="btn btn-ghost" href="#contatti" data-direction="EMBER.dsgn" data-product="sito" data-track="world_ember">I want this direction</a>
         </div>
       </article>
-
       <article class="world" style="--i:2">
         <div class="mock" aria-hidden="true">
           <div class="mk bio">
@@ -1113,14 +1182,12 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
           </div>
         </div>
         <div class="w-cap">
-          <span class="w-n">03 / 05</span>
+          <span class="w-n">03 / 05 · Clinics</span>
           <h3>Bionova <em>Clinic</em></h3>
           <p>Bright and reassuring: team, technology, reviews and first-visit booking in one tap.</p>
-          <div class="tags"><span>Clinics</span><span>Light theme</span><span>Book a visit</span></div>
           <a class="btn btn-ghost" href="#contatti" data-direction="Bionova Clinic" data-product="sito" data-track="world_bionova">I want this direction</a>
         </div>
       </article>
-
       <article class="world" style="--i:3">
         <div class="mock" aria-hidden="true">
           <div class="mk sha">
@@ -1136,14 +1203,12 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
           </div>
         </div>
         <div class="w-cap">
-          <span class="w-n">04 / 05</span>
+          <span class="w-n">04 / 05 · Beauty & fashion</span>
           <h3>Shamoni <em>Atelier</em></h3>
           <p>Magazine aesthetics, a lookbook of work and appointment booking. The salon becomes a brand.</p>
-          <div class="tags"><span>Beauty & fashion</span><span>Editorial</span><span>Gallery</span></div>
           <a class="btn btn-ghost" href="#contatti" data-direction="Shamoni Atelier" data-product="sito" data-track="world_shamoni">I want this direction</a>
         </div>
       </article>
-
       <article class="world" style="--i:4">
         <div class="mock" aria-hidden="true">
           <div class="mk neu">
@@ -1156,10 +1221,9 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
           </div>
         </div>
         <div class="w-cap">
-          <span class="w-n">05 / 05</span>
+          <span class="w-n">05 / 05 · SaaS · AI</span>
           <h3>Neura<em>lyn</em></h3>
           <p>A real product interface with dashboards, live data and quick commands.</p>
-          <div class="tags"><span>SaaS · AI</span><span>Dashboard</span><span>Realtime</span></div>
           <a class="btn btn-ghost" href="#contatti" data-direction="Neuralyn" data-product="webapp" data-track="world_neuralyn">I want this direction</a>
         </div>
       </article>
@@ -1168,85 +1232,34 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
   </div>
 </section>
 
-<!-- 3 · STRATEGIA: sotto la superficie -->
-<section class="surf" id="superficie" data-stage="3" aria-labelledby="h-surf">
-  <div class="surf-sticky">
-    <div class="wrap surf-in">
-      <div class="surf-l">
-        <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 7.5 4 12l4.5 4.5M15.5 7.5 20 12l-4.5 4.5M13.5 5l-3 14"/></svg>Under the surface</span>
-        <h2 id="h-surf">Beautiful is only <em>the surface.</em></h2>
-        <p class="lede">One project, five depths. Scroll or pick one: the site on the right changes in front of you.</p>
-        <div class="depths" role="tablist" aria-label="Project depths">
-          <button role="tab" type="button" data-d="0" aria-selected="true"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><rect class="px" x="10.5" y="10.5" width="3" height="3"/></svg><b>Visual</b><span>What the customer sees in the first second.</span></button>
-          <button role="tab" type="button" data-d="1" aria-selected="false"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4l5.5 15 2.2-6.3L19 10.5z"/><rect class="px" x="16" y="16" width="3" height="3"/></svg><b>Interaction</b><span>The interface responds and confirms every action.</span></button>
-          <button role="tab" type="button" data-d="2" aria-selected="false"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><rect class="px" x="15" y="15" width="4" height="4"/></svg><b>System</b><span>Reusable components: change one piece, it updates everywhere.</span></button>
-          <button role="tab" type="button" data-d="3" aria-selected="false"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 7.5 4 12l4.5 4.5M15.5 7.5 20 12l-4.5 4.5M13.5 5l-3 14"/></svg><b>Code</b><span>Hand-written architecture: interface, API, database.</span></button>
-          <button role="tab" type="button" data-d="4" aria-selected="false"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20h17"/><path d="M5 16l5-5 3 3 6.5-6.5"/><rect class="px" x="17" y="4.5" width="3" height="3"/></svg><b>Growth</b><span>Every click measured: you know what brings enquiries.</span></button>
-        </div>
-        <a class="skipsec" href="#metodo">Skip to the process</a>
-      </div>
-      <div class="stage" id="stage" data-state="0" aria-hidden="true">
-        <div class="st-bar"><i></i><i></i><i></i><span>osterialume.it</span></div>
-        <div class="st-page">
-          <div class="st-el st-nav" data-name="Header"><b>Lume</b><span>Menù</span><span>Storia</span><span class="st-btn sm">Prenota</span></div>
-          <div class="st-el st-hero" data-name="Hero"><small>Trastevere · dal 1962</small><h4>Cucina romana, <i>a lume di candela.</i></h4><span class="st-btn st-cta" data-name="CTA">Prenota un tavolo</span></div>
-          <div class="st-el st-cards" data-name="Card ×3"><div><i></i><b>Cacio e pepe</b></div><div><i></i><b>Carciofi</b></div><div><i></i><b>Maritozzo</b></div></div>
-        </div>
-        <span class="st-cursor"></span>
-        <div class="st-toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>Table booked · Fri 8:30 pm</div>
-        <div class="st-code">
-<pre><span class="c">// POST /api/booking</span>
-<span class="k">export async function</span> book(req) {
-  <span class="k">const</span> b = <span class="k">await</span> req.json()
-  <span class="k">await</span> db.bookings.insert(b)
-  <span class="k">await</span> notify.whatsapp(b.phone)
-  <span class="k">return</span> json({ ok: <span class="n">true</span> })
-}</pre>
-          <div class="st-nodes"><span>UI</span><i></i><span>API</span><i></i><span>DB</span><i></i><span>Dashboard</span></div>
-        </div>
-        <div class="st-growth">
-          <div class="fn"><span>Visits</span><i style="--w:100%"></i><b class="num">1.240</b></div>
-          <div class="fn"><span>Book clicks</span><i style="--w:42%"></i><b class="num">312</b></div>
-          <div class="fn"><span>Bookings</span><i style="--w:14%"></i><b class="num">41</b></div>
-          <small>Sample numbers</small>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 4 · PRODOTTO: metodo + prezzi -->
+<!-- metodo: ogni passo accende una parte del simbolo -->
 <section class="sec" id="metodo" data-stage="4" aria-labelledby="h-met">
-  <div class="wrap method">
-    <div class="method-l">
+  <div class="wrap">
+    <div class="sec-head">
       <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="10" width="8" height="8" rx="1.5" opacity=".4"/><rect x="7.5" y="7" width="8" height="8" rx="1.5" opacity=".7"/><rect x="12" y="4" width="8" height="8" rx="1.5"/><rect class="px" x="17.5" y="17.5" width="3" height="3"/></svg>The process</span>
       <h2 id="h-met">See it first. <em>Then decide.</em></h2>
       <p class="lede">Five steps, one contact, no surprises. We start from your new site, not from a quote.</p>
-      <div><div class="rail" aria-hidden="true"><i></i><b></b></div></div>
-      <div class="rail-l" aria-hidden="true"><span>Day 1</span><span>Live</span></div>
     </div>
-    <ol class="steps">
-      <li class="step on"><span class="when">Days 1–3 <span class="free">Free</span></span><h3>Your site preview</h3><p>We study your business and show you a real draft of your home page. If it doesn’t convince you, that’s the end of it.</p></li>
-      <li class="step"><span class="when">Days 4–10</span><h3>Strategy & content</h3><p>We define pages, messages and the action you want: a call, a booking or a quote request. We write the copy with you.</p></li>
-      <li class="step"><span class="when">Days 11–18</span><h3>Custom design</h3><p>No templates. Type, imagery and motion built around your identity.</p></li>
-      <li class="step"><span class="when">Days 15–21</span><h3>Build & speed</h3><p>Lightweight code, smooth motion, flawless on every phone. Optimised for Google from day one.</p></li>
-      <li class="step"><span class="when">Live + 30 days</span><h3>Launch & support</h3><p>We go live, connect your domain and Google Business profile, and stay with you for 30 days.</p></li>
+    <ol class="steps5">
+      <li data-k="step0"><span class="when">Days 1–3 <span class="free">Free</span></span><h3>Your site preview</h3><p>We study your business and show you a real draft of your home page. If it doesn’t convince you, that’s the end of it.</p></li>
+      <li data-k="step1"><span class="when">Days 4–10</span><h3>Strategy & content</h3><p>We define pages, messages and the action you want: a call, a booking or a quote request. We write the copy with you.</p></li>
+      <li data-k="step2"><span class="when">Days 11–18</span><h3>Custom design</h3><p>No templates. Type, imagery and motion built around your identity.</p></li>
+      <li data-k="step3"><span class="when">Days 15–21</span><h3>Build & speed</h3><p>Lightweight code, smooth motion, flawless on every phone. Optimised for Google from day one.</p></li>
+      <li data-k="step4"><span class="when">Live + 30 days</span><h3>Launch & support</h3><p>We go live, connect your domain and Google Business profile, and stay with you for 30 days.</p></li>
     </ol>
   </div>
 </section>
 
-<section class="sec" id="prezzi" data-stage="4" aria-labelledby="h-pr">
+<!-- prezzi -->
+<section class="sec" id="prezzi" data-k="dock" data-stage="4" aria-labelledby="h-pr">
   <div class="wrap">
-    <div class="sec-head split">
-      <div class="sh">
-        <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20h17"/><path d="M5 16l5-5 3 3 6.5-6.5"/><rect class="px" x="17" y="4.5" width="3" height="3"/></svg>Packages</span>
-        <h2 id="h-pr" class="rv-h">One clear price. <em>A site that pays for itself.</em></h2>
-      </div>
+    <div class="sec-head">
+      <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20h17"/><path d="M5 16l5-5 3 3 6.5-6.5"/><rect class="px" x="17" y="4.5" width="3" height="3"/></svg>Packages</span>
+      <h2 id="h-pr">One clear price. <em>A site that pays for itself.</em></h2>
       <p class="lede">No mandatory subscription, no surprise costs. Pick a package and we handle the rest.</p>
     </div>
-
     <div class="plans">
-      <article class="plan pl-l">
+      <article class="plan">
         <h3>Essential</h3>
         <p class="desc">One page that presents your business well and brings in contacts.</p>
         <div class="price"><b>€1,200</b><small>one-off</small></div>
@@ -1270,12 +1283,11 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Copy written with you, built to sell</span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Local SEO + Google Business profile</span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Domain, hosting and SSL for the first year</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Compliant privacy & cookies</span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>30 days of support after launch</span></li>
         </ul>
         <a class="btn btn-primary" href="#contatti" data-pkg="signature" data-product="sito" data-track="plan_signature">I want my site<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
       </article>
-      <article class="plan pl-r">
+      <article class="plan">
         <h3>Bespoke</h3>
         <p class="desc">3D experiences, e-commerce, multilingual and complex builds.</p>
         <div class="price"><span class="from">from</span><b>€4,000</b></div>
@@ -1283,100 +1295,74 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Everything in Signature</span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>3D and advanced motion</span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>E-commerce or bookings</span></li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Multilingual site</span></li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg><span>Web apps, client areas, integrations</span></li>
         </ul>
         <a class="btn btn-ghost" href="#contatti" data-pkg="sumisura" data-track="plan_sumisura">Let’s talk</a>
       </article>
     </div>
+    <p class="incl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.5c0 4.8-3.3 8-7.5 9.5-4.2-1.5-7.5-4.7-7.5-9.5V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><span><b>See the preview first, then decide.</b> We show you a draft of your site before asking for any payment. If it doesn’t convince you, you pay nothing.</span></p>
+    <p class="incl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 20.5 8 12 12.5 3.5 8z"/><path d="M3.5 12 12 16.5 20.5 12M3.5 16 12 20.5 20.5 16"/></svg><span>Included in every package: domain, hosting and SSL for the first year, compliant privacy and cookies, 30 days of support.</span></p>
 
-    <div class="guar">
-      <svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.5c0 4.8-3.3 8-7.5 9.5-4.2-1.5-7.5-4.7-7.5-9.5V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>
-      <div><b>See the preview first, then decide.</b><p>We show you a draft of your site before asking for any payment. If it doesn’t convince you, you pay nothing.</p></div>
-      <a class="btn btn-primary" href="#contatti" data-track="cta_guarantee">Get your free preview<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-    </div>
-
-    <div class="inc-h"><h3>All included. <em>No surprises.</em></h3><p>What others sell as extras comes as standard. One price, one finished site, ready to work.</p></div>
-    <ul class="inc">
-      <li><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 17.5a8 8 0 1 1 15 0"/><path d="M12 15.5 16 9.5"/><rect class="px" x="10.5" y="14.5" width="3" height="3"/></svg><h3>Genuinely fast</h3><p>PageSpeed 100 target. Opens in under a second, even on 4G.</p></li>
-      <li><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><rect class="px" x="10.5" y="16.5" width="3" height="3"/></svg><h3>Built for mobile</h3><p>Designed for the phone first, then everything else.</p></li>
-      <li><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.5-5.8 6.5-10.5a6.5 6.5 0 1 0-13 0C5.5 15.2 12 21 12 21z"/><rect class="px" x="10.5" y="9" width="3" height="3"/></svg><h3>Local SEO</h3><p>Structure, copy and Google Business profile so nearby customers find you.</p></li>
-      <li><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="10" width="8" height="8" rx="1.5" opacity=".4"/><rect x="7.5" y="7" width="8" height="8" rx="1.5" opacity=".7"/><rect x="12" y="4" width="8" height="8" rx="1.5"/><rect class="px" x="17.5" y="17.5" width="3" height="3"/></svg><h3>Video & motion</h3><p>Motion and interactive details that make your brand stick.</p></li>
-      <li><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4.5L19.5 9 15 4.5 4 15.5z"/><path d="M13 6.5l4.5 4.5"/><rect class="px" x="16.5" y="17.5" width="3" height="3"/></svg><h3>Copy that sells</h3><p>Written with you: clear, credible, built to get the enquiry.</p></li>
-      <li><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.8 2.6 14.2 0 17M12 3.5c-2.6 2.8-2.6 14.2 0 17"/><rect class="px" x="17.5" y="17.5" width="3" height="3"/></svg><h3>Domain & hosting</h3><p>First year included, SSL on. The domain is yours, forever.</p></li>
-      <li><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7.5 3v5.5c0 4.8-3.3 8-7.5 9.5-4.2-1.5-7.5-4.7-7.5-9.5V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><h3>Privacy & cookies</h3><p>GDPR-compliant privacy policy and cookie banner.</p></li>
-      <li><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9.5L4 20.5z"/><path d="M12.5 10.5h4"/><rect class="px" x="7.5" y="9" width="3" height="3"/></svg><h3>30 days of support</h3><p>Changes and tweaks after launch at no extra cost.</p></li>
-    </ul>
-
-    <div class="roi" id="roi">
-      <div class="roi-l">
-        <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-8-8"/><path d="M16 12a4 4 0 1 1-4-4"/><path d="M12 12l6-6"/><rect class="px" x="17" y="3" width="4" height="4"/></svg>Calculator</span>
-        <h3>How fast does it <em>pay for itself?</em></h3>
-        <div class="ctrl">
-          <div class="ctrl-top"><label for="roi-v">What one new customer is worth to you</label><output id="roi-v-o" for="roi-v" class="num">€150</output></div>
-          <input id="roi-v" type="range" min="20" max="2000" step="10" value="150">
-        </div>
-        <div class="ctrl">
-          <div class="ctrl-top"><label for="roi-c">New customers per month from the site</label><output id="roi-c-o" for="roi-c" class="num">4</output></div>
-          <input id="roi-c" type="range" min="1" max="40" step="1" value="4">
-        </div>
-        <fieldset class="ctrl">
-          <legend>Package</legend>
-          <div class="seg">
-            <label><input type="radio" name="roi-p" value="1200"><span>Essential · €1,200</span></label>
-            <label><input type="radio" name="roi-p" value="2000" checked><span>Signature · €2,000</span></label>
-            <label><input type="radio" name="roi-p" value="4000"><span>Bespoke · €4,000</span></label>
+    <details class="roi-d" id="roi">
+      <summary><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-8-8"/><path d="M16 12a4 4 0 1 1-4-4"/><path d="M12 12l6-6"/><rect class="px" x="17" y="3" width="4" height="4"/></svg><span>How fast does it pay for itself? Work it out in 10 seconds</span><i aria-hidden="true"></i></summary>
+      <div class="roi">
+        <div class="roi-l">
+          <div class="ctrl">
+            <div class="ctrl-top"><label for="roi-v">What one new customer is worth to you</label><output id="roi-v-o" for="roi-v" class="num">€150</output></div>
+            <input id="roi-v" type="range" min="20" max="2000" step="10" value="150">
           </div>
-        </fieldset>
+          <div class="ctrl">
+            <div class="ctrl-top"><label for="roi-c">New customers per month from the site</label><output id="roi-c-o" for="roi-c" class="num">4</output></div>
+            <input id="roi-c" type="range" min="1" max="40" step="1" value="4">
+          </div>
+          <fieldset class="ctrl">
+            <legend>Package</legend>
+            <div class="seg">
+              <label><input type="radio" name="roi-p" value="1200"><span>Essential · €1,200</span></label>
+              <label><input type="radio" name="roi-p" value="2000" checked><span>Signature · €2,000</span></label>
+              <label><input type="radio" name="roi-p" value="4000"><span>Bespoke · €4,000</span></label>
+            </div>
+          </fieldset>
+        </div>
+        <div class="roi-out" aria-live="polite">
+          <p class="roi-big" id="roi-big">—</p>
+          <p class="roi-sub" id="roi-sub">—</p>
+          <svg class="roi-chart" id="roi-chart" viewBox="0 0 560 260" role="img" aria-label="Cumulative extra revenue over 12 months compared with the site cost"></svg>
+          <p class="roi-note">Indicative estimate based on revenue, not profit: it depends on your sector, traffic and offer. Not a guaranteed result.</p>
+        </div>
       </div>
-      <div class="roi-out" aria-live="polite">
-        <p class="roi-big" id="roi-big">—</p>
-        <p class="roi-sub" id="roi-sub">—</p>
-        <svg class="roi-chart" id="roi-chart" viewBox="0 0 560 260" role="img" aria-label="Cumulative extra revenue over 12 months compared with the site cost"></svg>
-        <p class="roi-note">Indicative estimate based on revenue, not profit: it depends on your sector, traffic and offer. Not a guaranteed result.</p>
-        <a class="btn btn-primary" href="#contatti" style="justify-self:start" data-track="cta_roi">Get your free preview<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-      </div>
-    </div>
+    </details>
   </div>
 </section>
 
-<!-- 5 · TECNOLOGIA: FAQ + contatto -->
-<section class="sec" id="faq" data-stage="5" aria-labelledby="h-faq">
+<!-- FAQ -->
+<section class="sec" id="faq" data-k="dock" data-stage="5" aria-labelledby="h-faq">
   <div class="wrap faq">
     <div class="faq-l">
       <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9.5L4 20.5z"/><path d="M12.5 10.5h4"/><rect class="px" x="7.5" y="9" width="3" height="3"/></svg>FAQ</span>
       <h2 id="h-faq">Everything you’re <em>wondering about.</em></h2>
       <p class="lede">Can’t find the answer? Message us on WhatsApp: we reply the same day.</p>
-      <div class="bubble">
-        <div class="who"><i></i><b>NovaSignal</b> online</div>
-        <div class="msg me">How much is a complete site?</div>
-        <div class="msg">Signature is €2,000, all-in. Want to see a free preview of yours first?</div>
-        <a class="btn btn-ghost btn-sm" data-wa href="https://wa.me/393206891014" target="_blank" rel="noopener" style="justify-self:start;padding:0 18px" data-track="wa_faq">Message us on WhatsApp</a>
-      </div>
+      <a class="btn btn-ghost btn-sm" data-wa href="https://wa.me/393206891014" target="_blank" rel="noopener" style="justify-self:start;padding:0 18px" data-track="wa_faq">Message us on WhatsApp</a>
     </div>
     <div class="qa">
       <details open><summary>What does a site actually cost?<i aria-hidden="true"></i></summary><div class="a">Essential €1,200, Signature €2,000 all-in (or 2 payments of €1,000), bespoke projects from €4,000. No mandatory fees after launch.</div></details>
       <details><summary>How does the free preview work?<i aria-hidden="true"></i></summary><div class="a">We study your business and within a few days show you a real draft of your home page with your content. If it doesn’t convince you, that’s it: no cost, no commitment.</div></details>
       <details><summary>How long until the site is live?<i aria-hidden="true"></i></summary><div class="a">For Signature, 2–3 weeks on average from kick-off, depending on how quickly we gather copy and photos. The preview comes much sooner.</div></details>
-      <details><summary>Do I need copy, photos and video ready?<i aria-hidden="true"></i></summary><div class="a">No. We write the copy with you and, if you have no material, use licensed professional photos and video or advise you on producing them.</div></details>
       <details><summary>Do I own the domain and the site?<i aria-hidden="true"></i></summary><div class="a">Yes, always. The domain is registered to you and the site is yours. No lock-in, no mandatory subscription.</div></details>
       <details><summary>How does payment work?<i aria-hidden="true"></i></summary><div class="a">First you see the free preview. If you like it, we start with 50%; the balance is due only on delivery, once the site is live and approved by you.</div></details>
       <details><summary>Do you work outside Italy?<i aria-hidden="true"></i></summary><div class="a">Yes. We work with businesses in Italy, Europe, the UK, the US and the UAE, fully remote, in Italian and English.</div></details>
-      <details><summary>What happens after launch?<i aria-hidden="true"></i></summary><div class="a">You get 30 days of included support for changes and tweaks. After that, ask for updates whenever you need them, with no fixed fees.</div></details>
     </div>
   </div>
 </section>
 
-<section class="sec" id="contatti" data-stage="5" aria-labelledby="h-ct">
+<!-- contatto -->
+<section class="sec" id="contatti" data-k="dock" data-stage="5" aria-labelledby="h-ct">
   <div class="wrap">
-    <div class="sec-head split">
-      <div class="sh">
-        <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><rect class="px" x="10.5" y="16.5" width="3" height="3"/></svg>Contact</span>
-        <h2 id="h-ct">Let’s talk about <em>your</em> site.</h2>
-      </div>
+    <div class="sec-head">
+      <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><rect class="px" x="10.5" y="16.5" width="3" height="3"/></svg>Contact</span>
+      <h2 id="h-ct">Let’s talk about <em>your</em> site.</h2>
       <p class="lede">Three choices and your details: 30 seconds. We’ll reply today with next steps and preview timing.</p>
     </div>
-
     <form class="contact" id="lead" novalidate>
       <div class="panel">
         <span class="stepno">Step 1 of 2 · The project</span>
@@ -1416,7 +1402,6 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
           <div class="sig-p"><span>Recommended package</span><b id="sig-p">—</b></div>
         </div>
       </div>
-
       <div class="panel">
         <span class="stepno">Step 2 of 2 · Your details</span>
         <h3>Request your free preview</h3>
@@ -1446,7 +1431,6 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
         <div class="result ko" id="r-ko" hidden><b>The form didn’t go through.</b><p>Nothing is lost: the message is ready with your answers. Send it on WhatsApp in one tap, or copy it and email studio@novasignal.it.</p><div class="row"><a class="btn btn-primary btn-sm" data-wa-lead href="https://wa.me/393206891014" target="_blank" rel="noopener" data-track="wa_fallback">Send on WhatsApp<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a><button type="button" class="copy" id="copy-msg">Copy message</button></div></div>
       </div>
     </form>
-
     <div class="direct">
       <a data-wa href="https://wa.me/393206891014" target="_blank" rel="noopener" data-track="wa_direct"><span class="k">WhatsApp</span><b>+39 320 689 1014</b><span>The fastest channel. Same-day replies.</span></a>
       <div><span class="k">Email</span><b>studio@novasignal.it</b><span>For briefs, files and materials.</span><button type="button" class="copy" data-copy="studio@novasignal.it">Copy</button></div>
@@ -1455,18 +1439,16 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
   </div>
 </section>
 
-<!-- payoff: il segnale è completo -->
-<section class="payoff" data-stage="6" aria-labelledby="h-fin">
-  <picture class="payoff-bg">
-    <source media="(max-width: 700px)" srcset="../assets/nova-field-v.webp">
-    <img src="../assets/nova-orbit.webp" alt="" loading="lazy" decoding="async" width="1672" height="941">
-  </picture>
-  <div class="wrap payoff-in">
-    <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5 13 3.5v7z"/><path d="M19.5 13.5 11 20.5v-7z"/><rect x="13" y="10.5" width="6.5" height="3"/><rect class="px" x="4.5" y="10.5" width="3" height="3"/></svg>The signal is complete</span>
-    <h2 id="h-fin">Your idea starts as a signal. <em>We make it real.</em></h2>
-    <div class="cta-row">
-      <a class="btn btn-primary" href="#contatti" data-track="cta_final">Get your free preview<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-      <a class="btn btn-ghost" data-wa href="https://wa.me/393206891014" target="_blank" rel="noopener" data-track="wa_final">WhatsApp</a>
+<!-- il segnale è completo -->
+<section class="final" data-k="final" data-stage="6" aria-labelledby="h-fin">
+  <div class="wrap">
+    <div class="col">
+      <span class="lbl"><svg class="gl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.5 13 3.5v7z"/><path d="M19.5 13.5 11 20.5v-7z"/><rect x="13" y="10.5" width="6.5" height="3"/><rect class="px" x="4.5" y="10.5" width="3" height="3"/></svg>The signal is complete</span>
+      <h2 id="h-fin">Your idea starts as a signal. <em>We make it real.</em></h2>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#contatti" data-track="cta_final">Get your free preview<span class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a class="btn btn-ghost" data-wa href="https://wa.me/393206891014" target="_blank" rel="noopener" data-track="wa_final">WhatsApp</a>
+      </div>
     </div>
   </div>
 </section>
@@ -1480,7 +1462,7 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
         <p>NovaSignal designs and builds custom websites, web apps and brands for businesses that want to look like, and be, the reference in their field.</p>
         <p class="status"><span class="dot" aria-hidden="true"></span>Rome <span data-clock class="num">--:--</span></p>
       </div>
-      <div><h4>Navigate</h4><ul><li><a href="#servizi">Services</a></li><li><a href="#concept">Concepts</a></li><li><a href="#superficie">Under the surface</a></li><li><a href="#metodo">Process</a></li><li><a href="#prezzi">Pricing</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+      <div><h4>Navigate</h4><ul><li><a href="#livelli">The signal</a></li><li><a href="#servizi">Services</a></li><li><a href="#concept">Concepts</a></li><li><a href="#metodo">Process</a></li><li><a href="#prezzi">Pricing</a></li><li><a href="#faq">FAQ</a></li></ul></div>
       <div><h4>Contact</h4><ul><li><a data-wa href="https://wa.me/393206891014" target="_blank" rel="noopener">WhatsApp</a></li><li><span>studio@novasignal.it</span></li><li><span>+39 320 689 1014</span></li><li><a href="../" hreflang="it">Versione italiana</a></li></ul></div>
       <div><h4>Where</h4><ul><li><span>Studio in Rome</span></li><li><span>Italy · Europe · UK</span></li><li><span>United States · UAE</span></li></ul></div>
     </div>
@@ -1494,7 +1476,7 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
   <a class="btn btn-ghost" data-wa href="https://wa.me/393206891014" target="_blank" rel="noopener" tabindex="-1" data-track="wa_mbar">WhatsApp</a>
 </div>
 
-<script>window.NS={"lang": "en", "locale": "en-GB", "endpoint": "/api/lead", "trackEndpoint": null, "t": {"waHello": "Hi NovaSignal! I’d like some information about a new site.", "p1": "Essential", "p3": "Bespoke", "from": "from", "client1": "customer", "clientN": "customers", "roiBig": "{pkg} pays for itself with {n} {nWord} worth {v}.", "roiSub": "With {c} new customers a month it’s paid back {when}. Estimated extra revenue in year one: {year}.", "lt1": "within the first month", "inMonths": "in {m} months", "m": "M", "costLine": "{pkg} cost {p}", "pr1": "€1,200", "pr2": "€2,000", "pr3": "€4,000", "recQuote": "Bespoke · quote within 24 h", "dirChosen": "Chosen direction: {d}", "sending": "Sending…", "copied": "Copied", "waLead": "Hi NovaSignal! I’m {name}{biz}. I’d like a free preview for: {prod}, {feel} style, priority {prio}. Package: {pkg}.{dir}{site}{msg}", "waDir": " Direction: {d}.", "waSite": " Current site: {s}.", "prod": {"sito": {"title": "Premium website", "extra": "Subtle motion"}, "webapp": {"title": "Custom web app", "extra": "Dashboards & data"}, "app": {"title": "Mobile app", "extra": "iOS · Android · PWA"}, "brand": {"title": "Brand identity", "extra": "Logo & guidelines"}}, "feel": {"minimale": "Minimal", "editoriale": "Editorial", "tecnico": "Technical", "audace": "Bold", "lusso": "Luxury", "sperimentale": "Experimental"}, "prio": {"fiducia": "High trust", "conversione": "More enquiries", "chiarezza": "Maximum clarity", "wow": "Wow factor"}, "dirsFor": {}}};</script>
+<script>window.NS={"three": "../assets/three.min.js", "lang": "en", "locale": "en-GB", "endpoint": "/api/lead", "trackEndpoint": null, "t": {"waHello": "Hi NovaSignal! I’d like some information about a new site.", "p1": "Essential", "p3": "Bespoke", "from": "from", "client1": "customer", "clientN": "customers", "roiBig": "{pkg} pays for itself with {n} {nWord} worth {v}.", "roiSub": "With {c} new customers a month it’s paid back {when}. Estimated extra revenue in year one: {year}.", "lt1": "within the first month", "inMonths": "in {m} months", "m": "M", "costLine": "{pkg} cost {p}", "pr1": "€1,200", "pr2": "€2,000", "pr3": "€4,000", "recQuote": "Bespoke · quote within 24 h", "dirChosen": "Chosen direction: {d}", "sending": "Sending…", "copied": "Copied", "waLead": "Hi NovaSignal! I’m {name}{biz}. I’d like a free preview for: {prod}, {feel} style, priority {prio}. Package: {pkg}.{dir}{site}{msg}", "waDir": " Direction: {d}.", "waSite": " Current site: {s}.", "prod": {"sito": {"title": "Premium website", "extra": "Subtle motion"}, "webapp": {"title": "Custom web app", "extra": "Dashboards & data"}, "app": {"title": "Mobile app", "extra": "iOS · Android · PWA"}, "brand": {"title": "Brand identity", "extra": "Logo & guidelines"}}, "feel": {"minimale": "Minimal", "editoriale": "Editorial", "tecnico": "Technical", "audace": "Bold", "lusso": "Luxury", "sperimentale": "Experimental"}, "prio": {"fiducia": "High trust", "conversione": "More enquiries", "chiarezza": "Maximum clarity", "wow": "Wow factor"}, "dirsFor": {}, "parts": ["Idea", "Brand", "Strategy", "Product", "Technology"]}};</script>
 <script>(() => {
   "use strict";
   const NS = window.NS || {};
@@ -1552,41 +1534,25 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
   /* ---------- WhatsApp default links ---------- */
   $$("[data-wa]").forEach(a => (a.href = waLink(T.waHello || "Ciao NovaSignal!")));
 
-  /* ---------- scroll-driven systems: header, progress, signal meter, stack, surface, steps ---------- */
+  /* ---------- scroll systems: header, progress, signal meter, stack ---------- */
   const hdr = $(".hdr"), prog = $(".prog"), mbar = $(".mbar"), hero = $(".hero"), contact = $("#contatti");
-  const core = $("#core"), mini = $("#mini");
+  const mini = $("#mini");
   const stages = $$("[data-stage]");
   const miniParts = [1, 2, 3, 4, 5].map(n => $(".mp-" + n));
   const worldsEls = $$(".world");
-  const surf = $("#superficie"), stage = $("#stage"), tabs = $$(".depths [data-d]");
-  const wide = matchMedia("(min-width: 901px)");
-  let contactVisible = false, heroScroll = 0, surfState = 0;
+  let contactVisible = false;
   if ("IntersectionObserver" in window && contact) {
     new IntersectionObserver(es => { contactVisible = es[0].isIntersecting; onScroll(); }, { threshold: 0.05 }).observe(contact);
   }
-  const rail = $(".rail"), steps = $$(".step"), stepsWrap = $(".steps");
-  const setSurf = (i, fromScroll) => {
-    if (!stage) return;
-    i = Math.max(0, Math.min(4, i));
-    if (i === surfState && fromScroll) return;
-    surfState = i;
-    stage.dataset.state = i;
-    tabs.forEach((t, k) => { t.setAttribute("aria-selected", k === i ? "true" : "false"); t.tabIndex = k === i ? 0 : -1; });
-    if (!fromScroll) track("depth_" + i);
-  };
   function onScroll() {
     const y = scrollY, vh = innerHeight, max = document.documentElement.scrollHeight - vh;
     if (prog) prog.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
     if (hdr) hdr.classList.toggle("scrolled", y > 24);
     if (mbar) mbar.classList.toggle("show", y > (hero ? hero.offsetHeight * 0.7 : 400) && !contactVisible);
-    heroScroll = hero ? Math.max(0, Math.min(1, y / hero.offsetHeight)) : 0;
-    if (core) core.style.setProperty("--hs", heroScroll.toFixed(3));
-    // signal meter: the symbol assembles as the visitor moves through the page
     let st = 1;
     stages.forEach(s => { if (s.getBoundingClientRect().top < vh * 0.55) st = Math.max(st, +s.dataset.stage); });
     miniParts.forEach((p, i) => p && p.classList.toggle("lit", i < st));
     if (mini) mini.classList.toggle("done", st >= 6);
-    // physical stack: earlier worlds sink as the next one arrives
     worldsEls.forEach((w, i) => {
       const next = worldsEls[i + 1];
       if (!next) { w.style.setProperty("--sc", 1); w.style.setProperty("--br", 1); return; }
@@ -1595,162 +1561,332 @@ kbd{font:500 11px/1 var(--f-mono);padding:5px 7px;border-radius:7px;border:1px s
       w.style.setProperty("--sc", (1 - k * 0.06).toFixed(3));
       w.style.setProperty("--br", (1 - k * 0.45).toFixed(3));
     });
-    // under the surface: scroll picks the depth (desktop only)
-    if (surf && wide.matches) {
-      const r = surf.getBoundingClientRect();
-      const p = Math.max(0, Math.min(0.999, -r.top / (r.height - vh)));
-      setSurf(Math.floor(p * 5), true);
-    }
-    if (stepsWrap && rail) {
-      const r = stepsWrap.getBoundingClientRect();
-      const p = Math.max(0, Math.min(1, (vh * 0.6 - r.top) / r.height));
-      rail.style.setProperty("--mp", p.toFixed(3));
-      const mid = vh * 0.55;
-      let active = 0;
-      steps.forEach((s, i) => { if (s.getBoundingClientRect().top < mid) active = i; });
-      steps.forEach((s, i) => s.classList.toggle("on", i === active));
-    }
   }
   addEventListener("scroll", onScroll, { passive: true });
   addEventListener("resize", onScroll);
   onScroll();
 
-  // depth tabs: click or arrow keys; on desktop also move the scroll so both stay in sync
-  tabs.forEach((t, i) => {
-    t.addEventListener("click", () => {
-      setSurf(i, false);
-      if (wide.matches && surf) {
-        const top = surf.getBoundingClientRect().top + scrollY;
-        scrollTo({ top: top + (surf.offsetHeight - innerHeight) * ((i + 0.5) / 5), behavior: reduce ? "auto" : "smooth" });
-      }
-    });
-    t.addEventListener("keydown", e => {
-      if (e.key !== "ArrowDown" && e.key !== "ArrowUp" && e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-      e.preventDefault();
-      const n = (i + (e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : 4)) % 5;
-      tabs[n].focus(); tabs[n].click();
-    });
-  });
+  /* ---------- SPACE: the symbol carries the whole scroll ---------- */
+  (function space() {
+    const cv = $("#space");
+    const root = document.documentElement;
+    const fail = () => root.classList.add("no3d");
+    if (!cv) return fail();
+    let probe;
+    try { probe = !!(window.WebGLRenderingContext && (cv.getContext("webgl") || cv.getContext("experimental-webgl"))); } catch (e) { probe = false; }
+    if (!probe) return fail();
+    const s = document.createElement("script");
+    s.src = NS.three; s.async = true;
+    s.onload = () => { try { init(window.THREE); } catch (e) { console.warn(e); fail(); } };
+    s.onerror = fail;
+    document.head.appendChild(s);
 
-  /* ---------- Nova Core: the symbol opens into its five layers ---------- */
-  (function novaCore() {
-    if (!core) return;
-    const setS = v => { core.style.setProperty("--s", v); core.setAttribute("aria-pressed", v > 0 ? "true" : "false"); };
-    let pinned = false, touched = false;
-    if (!reduce) { core.classList.add("intro"); setTimeout(() => core.classList.remove("intro"), 1900); }
-    const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
-    if (fine) {
-      core.addEventListener("pointerenter", () => { if (!pinned) setS(1); if (!touched) { touched = true; track("core_open"); } });
-      core.addEventListener("pointerleave", () => { if (!pinned) setS(0); core.style.setProperty("--rx", "0deg"); core.style.setProperty("--ry", "0deg"); });
-      core.addEventListener("pointermove", e => {
-        if (reduce) return;
-        const b = core.getBoundingClientRect();
-        const x = (e.clientX - b.left) / b.width - 0.5, y = (e.clientY - b.top) / b.height - 0.5;
-        core.style.setProperty("--ry", (x * 22).toFixed(2) + "deg");
-        core.style.setProperty("--rx", (-y * 16).toFixed(2) + "deg");
+    function init(THREE) {
+      const coarse = matchMedia("(pointer: coarse)").matches;
+      const renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: !coarse, alpha: false, powerPreference: "high-performance" });
+      renderer.setClearColor(0x050608, 1);
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x050608, 0.012);
+      const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 400);
+      const lookAt = new THREE.Vector3();
+
+      /* --- the symbol: five extruded parts --- */
+      const C = h => new THREE.Color(h);
+      const toV = (x, y) => new THREE.Vector2(x - 172.5, 255 - y);
+      const PARTS = [
+        { name: 0, pts: [[0, 205], [100, 205], [100, 305], [0, 305]], a: "#FFFFFF", m: "#F3F6F7", b: "#D9E4EA", g: [[0, 205], [100, 305]], off: [-1.5, 0.05, 0.5], rot: [0, -0.35, 0] },
+        { name: 1, pts: [[0, 205], [245, 0], [245, 205]], a: "#FF6A22", m: "#FF9A33", b: "#FFC64C", g: [[0, 205], [245, 0]], off: [-0.55, 1.15, 0.9], rot: [0.2, -0.25, 0.05] },
+        { name: 2, pts: [[100, 205], [245, 205], [245, 305], [100, 305]], a: "#FFC94F", m: "#D9DE5E", b: "#86E07E", g: [[100, 205], [245, 305]], off: [0, 0, -1.0], rot: [0, 0.15, 0] },
+        { name: 3, pts: [[245, 205], [345, 205], [345, 305], [245, 305]], a: "#9CF7E8", m: "#64EBE6", b: "#2FD3EE", g: [[245, 205], [345, 305]], off: [1.5, -0.05, 0.5], rot: [0, 0.35, 0] },
+        { name: 4, pts: [[345, 305], [100, 510], [100, 305]], a: "#A6E46A", m: "#36E2BE", b: "#1FBFF4", g: [[120, 305], [250, 500]], off: [0.55, -1.15, 0.9], rot: [-0.2, 0.25, -0.05] }
+      ];
+      const partVS = `
+        varying vec3 vN; varying vec3 vV; varying vec2 vP; varying vec3 vON;
+        void main(){
+          vP = position.xy; vON = normal;
+          vec4 mv = modelViewMatrix * vec4(position,1.);
+          vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz);
+          gl_Position = projectionMatrix * mv;
+        }`;
+      const partFS = `
+        uniform vec3 uA; uniform vec3 uM; uniform vec3 uB; uniform vec2 uP0; uniform vec2 uP1;
+        uniform float uLight; uniform float uTime; uniform float uAlpha;
+        varying vec3 vN; varying vec3 vV; varying vec2 vP; varying vec3 vON;
+        void main(){
+          vec2 d = uP1 - uP0;
+          float g = clamp(dot(vP - uP0, d) / dot(d, d), 0., 1.);
+          vec3 base = g < .5 ? mix(uA, uM, g * 2.) : mix(uM, uB, g * 2. - 1.);
+          float front = smoothstep(.55, .95, abs(vON.z));
+          float fres = pow(1. - abs(dot(normalize(vN), normalize(vV))), 2.4);
+          vec3 col = base * (.42 + .58 * front);
+          col += mix(base, vec3(1.), .55) * fres * .85;
+          float sweep = smoothstep(.07, 0., abs(fract((vP.x * .6 + vP.y) * .0016 - uTime * .07) - .5) - .43);
+          col += vec3(1.) * sweep * front * .22;
+          col *= uLight;
+          gl_FragColor = vec4(col, uAlpha * (.9 + .1 * fres));
+        }`;
+      const rig = new THREE.Group();          // follows the symbol through space
+      const core = new THREE.Group();         // the symbol itself
+      core.scale.setScalar(0.0105);
+      rig.add(core);
+      scene.add(rig);
+      const parts = PARTS.map(p => {
+        const shape = new THREE.Shape(p.pts.map(([x, y]) => toV(x, y)));
+        const geo = new THREE.ExtrudeGeometry(shape, { depth: 26, bevelEnabled: true, bevelThickness: 5, bevelSize: 3.2, bevelSegments: 3, steps: 1 });
+        geo.translate(0, 0, -13);
+        const mat = new THREE.ShaderMaterial({
+          vertexShader: partVS, fragmentShader: partFS, transparent: true,
+          uniforms: { uA: { value: C(p.a) }, uM: { value: C(p.m) }, uB: { value: C(p.b) }, uP0: { value: toV(...p.g[0]) }, uP1: { value: toV(...p.g[1]) }, uLight: { value: 1 }, uTime: { value: 0 }, uAlpha: { value: 1 } }
+        });
+        const mesh = new THREE.Mesh(geo, mat);
+        const holder = new THREE.Group();
+        holder.add(mesh);
+        core.add(holder);
+        return { holder, mat, off: p.off, rot: p.rot, light: 1 };
       });
-    }
-    const toggle = () => { pinned = core.getAttribute("aria-pressed") !== "true"; setS(pinned ? 1 : 0); if (!touched) { touched = true; track("core_open"); } };
-    core.addEventListener("click", () => { if (!fine) toggle(); else { pinned = !pinned; setS(pinned ? 1 : 0); } });
-    core.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
-    // closing on scroll: the symbol folds back before it becomes the portal
-    addEventListener("scroll", () => { if (heroScroll > 0.12 && core.getAttribute("aria-pressed") === "true") { pinned = false; setS(0); } }, { passive: true });
-  })();
 
-  /* ---------- Living Field: dipole field lines that radiate from the symbol ---------- */
-  (function livingField() {
-    const cv = $("#field");
-    if (!cv || !hero) return;
-    let gl;
-    try { gl = cv.getContext("webgl", { antialias: false, alpha: false, premultipliedAlpha: false, powerPreference: "high-performance" }); } catch (e) {}
-    if (!gl) return;
-    const deriv = !!gl.getExtension("OES_standard_derivatives");
-    const vs = "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
-    const fs = (deriv ? "#extension GL_OES_standard_derivatives : enable\n" : "") + `precision highp float;
-uniform vec2 r;uniform vec2 c;uniform float t;uniform vec2 m;uniform float s;uniform float k;
-float h(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
-vec3 spec(float x){x=clamp(x,0.,1.);vec3 a=vec3(1.,.47,.18),b=vec3(1.,.76,.29),cc=vec3(.21,.89,.75),d=vec3(.14,.77,.95);
- if(x<.34)return mix(a,b,x/.34);if(x<.68)return mix(b,cc,(x-.34)/.34);return mix(cc,d,(x-.68)/.32);}
-float lineAA(float v,float wpx){
- ${deriv ? "float fw=max(fwidth(v),1e-4);" : "float fw=.03;"}
- float d=abs(fract(v)-.5)/fw;
- return 1.-smoothstep(wpx*.5,wpx*.5+1.,d);
-}
-void main(){
- float sc=min(r.x,r.y)*k;
- float px=1./sc;
- vec2 p=(gl_FragCoord.xy-c)/sc;
- float ang=(m.x-.5)*.35;
- p=mat2(cos(ang),-sin(ang),sin(ang),cos(ang))*p;
- p*=1.+s*.6;
- float r2=dot(p,p)+.0004;
- float rr=sqrt(r2);
- float psi=p.x/r2;
- float sgn=sign(psi);
- float v=sgn*log(1.+abs(psi)*1.1)*3.2;
- float lines=lineAA(v,1.1)*smoothstep(.25,1.2,abs(psi));
- float cx=.5/(psi+sgn*1e-4);
- float th=atan(p.y,p.x-cx);
- float arc=th*abs(cx);
- float dots=smoothstep(.1,0.,abs(fract(arc*6.-t*.25*sgn)-.5)-.4)*lineAA(v,2.4)*smoothstep(.25,1.2,abs(psi));
- float near=smoothstep(.22,.5,rr);
- float far=exp(-rr*1.35);
- vec3 ice=vec3(.84,.95,1.);
- vec3 tint=mix(ice,spec(.5+p.x*.35+.1*sin(t*.1)),.45);
- vec3 o=tint*lines*near*far*.42;
- o+=vec3(.95,1.,1.)*dots*near*far*.9;
- float beam=(smoothstep(2.*px,0.,abs(p.x))*.8+exp(-abs(p.x)*18.)*.12)*exp(-abs(p.y)*1.3)*smoothstep(.3,.7,abs(p.y));
- o+=mix(ice,spec(.9),.5)*beam;
- vec2 e=p*vec2(1.,2.4);
- float le=length(e);
- float ring=smoothstep(1.6*px,0.,abs(le-.72))*.38+smoothstep(1.2*px,0.,abs(le-1.05))*.16;
- float rd=smoothstep(.15,0.,abs(fract(atan(e.y,e.x)/6.2832*48.-t*.05)-.5)-.4);
- o+=mix(ice,spec(.75),.4)*ring*(.35+.65*rd)*near;
- float halo=exp(-rr*2.6);
- o+=spec(.45)*halo*.16+vec3(1.,.6,.25)*exp(-length(p-vec2(-.2,.25))*4.)*.08;
- float st=step(.9975,h(floor(gl_FragCoord.xy/1.6)))*smoothstep(.3,.9,rr);
- o+=st*(.25+.25*sin(t*1.7+h(floor(gl_FragCoord.xy))*40.));
- o*=1.-s*.75;
- o+=(h(gl_FragCoord.xy+fract(t))-.5)*.02;
- gl_FragColor=vec4(max(o,0.),1.);
-}`;
-    const sh = (type, src) => { const x = gl.createShader(type); gl.shaderSource(x, src); gl.compileShader(x); if (!gl.getShaderParameter(x, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(x)); return null; } return x; };
-    const v = sh(gl.VERTEX_SHADER, vs), f = sh(gl.FRAGMENT_SHADER, fs);
-    if (!v || !f) return;
-    const pr = gl.createProgram(); gl.attachShader(pr, v); gl.attachShader(pr, f); gl.linkProgram(pr);
-    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return;
-    gl.useProgram(pr);
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    const U = {}; ["r", "c", "t", "m", "s", "k"].forEach(n => (U[n] = gl.getUniformLocation(pr, n)));
-    const mouse = { x: .5, y: .5, tx: .5, ty: .5 };
-    const coarse = matchMedia("(pointer: coarse)").matches;
-    const dprMax = coarse ? 1.25 : 1.6;
-    let dpr = 1;
-    const size = () => { dpr = Math.min(devicePixelRatio || 1, dprMax); const w = Math.round(cv.clientWidth * dpr), hh = Math.round(cv.clientHeight * dpr); if (cv.width !== w || cv.height !== hh) { cv.width = w; cv.height = hh; gl.viewport(0, 0, w, hh); } };
-    hero.addEventListener("pointermove", e => { const b = hero.getBoundingClientRect(); mouse.tx = (e.clientX - b.left) / b.width; mouse.ty = (e.clientY - b.top) / b.height; }, { passive: true });
-    let visible = true, start = performance.now(), raf = 0, first = true;
-    const draw = now => {
-      size();
-      mouse.x += (mouse.tx - mouse.x) * 0.04;
-      if (coarse) mouse.tx = .5 + Math.sin(now / 5000) * .3;
-      const hb = hero.getBoundingClientRect(), cb = (core || hero).getBoundingClientRect();
-      const cxp = (cb.left + cb.width / 2 - hb.left) * dpr, cyp = (hb.bottom - (cb.top + cb.height / 2)) * dpr;
-      gl.uniform2f(U.r, cv.width, cv.height);
-      gl.uniform2f(U.c, cxp, cyp);
-      gl.uniform1f(U.k, innerWidth < 901 ? .62 : .78);
-      gl.uniform1f(U.t, reduce ? 12 : (now - start) / 1000 + 4);
-      gl.uniform2f(U.m, mouse.x, mouse.y);
-      gl.uniform1f(U.s, heroScroll);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
-      if (first) { first = false; document.documentElement.classList.add("gl-on"); }
-    };
-    const loop = now => { draw(now); raf = visible && !reduce ? requestAnimationFrame(loop) : 0; };
-    if ("IntersectionObserver" in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && !raf && !reduce) raf = requestAnimationFrame(loop); }, { threshold: 0 }).observe(hero);
-    document.addEventListener("visibilitychange", () => { if (document.hidden) { cancelAnimationFrame(raf); raf = 0; } else if (visible && !reduce && !raf) raf = requestAnimationFrame(loop); });
-    addEventListener("resize", () => { if (reduce) draw(performance.now()); });
-    raf = requestAnimationFrame(loop);
+      /* --- glow sprites --- */
+      const glowTex = (() => {
+        const c = document.createElement("canvas"); c.width = c.height = 256;
+        const x = c.getContext("2d"); const g = x.createRadialGradient(128, 128, 0, 128, 128, 128);
+        g.addColorStop(0, "rgba(255,255,255,1)"); g.addColorStop(.25, "rgba(255,255,255,.35)"); g.addColorStop(1, "rgba(255,255,255,0)");
+        x.fillStyle = g; x.fillRect(0, 0, 256, 256);
+        return new THREE.CanvasTexture(c);
+      })();
+      const halo = (color, size, x, y, o) => {
+        const m = new THREE.SpriteMaterial({ map: glowTex, color, transparent: true, opacity: o, blending: THREE.AdditiveBlending, depthWrite: false });
+        const sp = new THREE.Sprite(m); sp.scale.set(size, size, 1); sp.position.set(x, y, -0.8); rig.add(sp); return sp;
+      };
+      const halos = [halo(0xff8a3a, 6.5, -0.7, 0.9, .28), halo(0x2cc8f0, 7, 0.7, -0.9, .3), halo(0xffffff, 3.2, 0, 0, .12)];
+
+      /* --- field lines: a dipole around the symbol, as in the reference renders --- */
+      const lineVS = `attribute float t; attribute float seed; varying float vt; varying float vs; varying vec3 vp;
+        void main(){ vt=t; vs=seed; vp=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }`;
+      const lineFS = `uniform float uTime; uniform float uAlpha; varying float vt; varying float vs; varying vec3 vp;
+        vec3 spec(float x){x=clamp(x,0.,1.);vec3 a=vec3(1.,.47,.18),b=vec3(1.,.76,.29),c=vec3(.21,.89,.75),d=vec3(.14,.77,.95);
+          if(x<.34)return mix(a,b,x/.34);if(x<.68)return mix(b,c,(x-.34)/.34);return mix(c,d,(x-.68)/.32);}
+        void main(){
+          float f = fract(vt * 2. - uTime * .06 + vs);
+          float pulse = smoothstep(0., .015, f) * smoothstep(.07, .015, f);
+          float r = length(vp);
+          float fade = smoothstep(.9, 2.2, r) * (1. - smoothstep(9., 15., r));
+          vec3 ice = vec3(.84, .95, 1.);
+          vec3 col = mix(ice, spec(.5 + vp.y * .12 + vs * .2), .35);
+          gl_FragColor = vec4(col * (1. + pulse * 1.6), (.16 + pulse * .8) * fade * uAlpha);
+        }`;
+      const lineMat = new THREE.ShaderMaterial({ vertexShader: lineVS, fragmentShader: lineFS, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uTime: { value: 0 }, uAlpha: { value: 1 } } });
+      const field = new THREE.Group();
+      const addLine = (pts, seed) => {
+        const g = new THREE.BufferGeometry().setFromPoints(pts);
+        const n = pts.length, t = new Float32Array(n), sd = new Float32Array(n);
+        for (let i = 0; i < n; i++) { t[i] = i / (n - 1); sd[i] = seed; }
+        g.setAttribute("t", new THREE.BufferAttribute(t, 1)); g.setAttribute("seed", new THREE.BufferAttribute(sd, 1));
+        field.add(new THREE.Line(g, lineMat));
+      };
+      const Ls = coarse ? [2.4, 3.6, 5.4] : [2.2, 3.0, 4.1, 5.6, 7.6];
+      const az = coarse ? 6 : 10;
+      Ls.forEach((L, li) => {
+        for (let k = 0; k < az; k++) {
+          const ph = (k / az) * Math.PI * 2 + li * 0.21, pts = [];
+          for (let i = 0; i <= 140; i++) {
+            const th = 0.06 + (Math.PI - 0.12) * (i / 140);
+            const r = L * Math.sin(th) ** 2;
+            pts.push(new THREE.Vector3(r * Math.sin(th) * Math.cos(ph), r * Math.cos(th) * 1.15, r * Math.sin(th) * Math.sin(ph)));
+          }
+          addLine(pts, (k * 0.137 + li * 0.31) % 1);
+        }
+      });
+      // orbits and the vertical beam
+      [[3.3, 1.28, 0.0], [4.7, 1.36, 0.6], [6.4, 1.42, 1.2]].forEach(([R, tilt, sd]) => {
+        const pts = []; for (let i = 0; i <= 200; i++) { const a = (i / 200) * Math.PI * 2; pts.push(new THREE.Vector3(Math.cos(a) * R, 0, Math.sin(a) * R * 0.92)); }
+        const before = field.children.length; addLine(pts, sd);
+        const ln = field.children[before]; ln.rotation.x = tilt; ln.rotation.z = 0.08;
+      });
+      addLine([new THREE.Vector3(0, -14, 0), new THREE.Vector3(0, 14, 0)], 0.5);
+      rig.add(field);
+
+      /* --- star dust --- */
+      const starN = coarse ? 900 : 2600;
+      const sp = new Float32Array(starN * 3), ss = new Float32Array(starN), sc = new Float32Array(starN * 3);
+      for (let i = 0; i < starN; i++) {
+        sp[i * 3] = (Math.random() - .5) * 120; sp[i * 3 + 1] = (Math.random() - .5) * 70; sp[i * 3 + 2] = 30 - Math.random() * 170;
+        ss[i] = Math.random() * 1.6 + .4;
+        const warm = Math.random() < .12; sc[i * 3] = warm ? 1 : .8; sc[i * 3 + 1] = warm ? .72 : .92; sc[i * 3 + 2] = warm ? .45 : 1;
+      }
+      const sg = new THREE.BufferGeometry();
+      sg.setAttribute("position", new THREE.BufferAttribute(sp, 3)); sg.setAttribute("size", new THREE.BufferAttribute(ss, 1)); sg.setAttribute("color", new THREE.BufferAttribute(sc, 3));
+      const starMat = new THREE.ShaderMaterial({
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uTime: { value: 0 }, uPR: { value: 1 } },
+        vertexShader: `attribute float size; attribute vec3 color; uniform float uTime; uniform float uPR; varying vec3 vc; varying float va;
+          void main(){ vc=color; vec4 mv=modelViewMatrix*vec4(position,1.); va=.45+.55*sin(uTime*1.3+position.x*3.1+position.z);
+          gl_PointSize=size*uPR*(26./-mv.z); gl_Position=projectionMatrix*mv; }`,
+        fragmentShader: `varying vec3 vc; varying float va; void main(){ float d=length(gl_PointCoord-.5); float a=smoothstep(.5,0.,d); gl_FragColor=vec4(vc, a*va*.85); }`
+      });
+      scene.add(new THREE.Points(sg, starMat));
+
+      /* --- the tunnel of squares you fly through --- */
+      const tunnel = new THREE.Group();
+      const tunMat = new THREE.ShaderMaterial({
+        transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, uniforms: { uAlpha: { value: 0 }, uTime: { value: 0 } },
+        vertexShader: `attribute float hue; varying float vh; varying vec3 vp; void main(){ vh=hue; vp=(modelMatrix*vec4(position,1.)).xyz; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);} `,
+        fragmentShader: `uniform float uAlpha; varying float vh; varying vec3 vp;
+          vec3 spec(float x){x=fract(x);vec3 a=vec3(1.,.47,.18),b=vec3(1.,.76,.29),c=vec3(.21,.89,.75),d=vec3(.14,.77,.95);
+            if(x<.25)return mix(a,b,x/.25);if(x<.5)return mix(b,c,(x-.25)/.25);if(x<.75)return mix(c,d,(x-.5)/.25);return mix(d,a,(x-.75)/.25);}
+          void main(){ gl_FragColor=vec4(mix(spec(vh),vec3(1.),.25), .55*uAlpha); }`
+      });
+      const TN = coarse ? 22 : 34;
+      for (let i = 0; i < TN; i++) {
+        const z = -4 - i * 1.7, sz = 2.2 + Math.sin(i * .35) * .25;
+        const pts = [[-sz, -sz], [sz, -sz], [sz, sz], [-sz, sz], [-sz, -sz]].map(([x, y]) => new THREE.Vector3(x, y, 0));
+        const g = new THREE.BufferGeometry().setFromPoints(pts);
+        g.setAttribute("hue", new THREE.BufferAttribute(new Float32Array(pts.length).fill(i / TN), 1));
+        const ln = new THREE.Line(g, tunMat); ln.position.z = z; ln.rotation.z = i * 0.07; tunnel.add(ln);
+      }
+      tunnel.visible = false;
+      scene.add(tunnel);
+
+      /* --- keyframes: one per [data-k] anchor --- */
+      const mobile = () => innerWidth < 901;
+      const TZ = -4 - (TN - 1) * 1.7 - 8;        // where the symbol waits at the end of the tunnel
+      const L5 = [1, 1, 1, 1, 1];
+      const focusL = i => L5.map((_, k) => (k === i ? 1.28 : 0.26));
+      const H0 = 510 * 0.0105;                        // symbol height at scale 1
+      const view = D => { const h = 2 * D * Math.tan((camera.fov * Math.PI / 180) / 2); return { h, w: h * camera.aspect }; };
+      const K = name => {
+        const m = mobile();
+        const D = m ? 15 : 14, v = view(D);
+        // hero: symbol on the right (desktop) or above the headline (mobile)
+        const hs = (m ? .3 : .52) * v.h / H0;
+        const hx = m ? 0 : v.w * .24, hy = m ? v.h * .24 : -v.h * .01;
+        const base = { cam: [0, 0, D], look: [0, 0, 0], rig: [hx, hy, 0], s: hs, ry: -0.35, rx: 0, split: 0, light: L5, field: 1, tunnel: 0, halo: 1, pop: -1 };
+        if (name === "hero") return base;
+        if (name === "manifest") return { ...base, cam: [m ? .6 : 1.4, .5, D], ry: .5, rx: -.06, split: .3, field: .85 };
+        let mm = /^layer(\d)$/.exec(name);
+        if (mm) {
+          const i = +mm[1];
+          const ls = (m ? .26 : .4) * v.h / H0;
+          return { ...base, cam: [(m ? .2 - i * .12 : -.3 - i * .22), .45 - i * .15, D], rig: [m ? 0 : v.w * .28, m ? v.h * .27 : 0, 0], s: ls, ry: -0.55 + i * .27, rx: .12 - i * .05, split: 1, light: focusL(i), field: .5, pop: i };
+        }
+        if (name === "portal") {
+          const D2 = m ? 11 : 9, v2 = view(D2);
+          return { ...base, cam: [0, 0, D2], look: [0, 0, -20], rig: [0, -v2.h * .2, 0], s: (m ? .28 : .38) * v2.h / H0, ry: 0, rx: 0, split: 0, light: L5.map(() => 1.12), field: .6, tunnel: .7, halo: 1.2 };
+        }
+        const DT = 16, vt = view(DT);
+        if (name === "tunnel") return { ...base, cam: [0, 0, TZ + DT], look: [0, 0, TZ - 40], rig: [0, 0, TZ], s: (m ? .26 : .34) * vt.h / H0, ry: 0, rx: 0, split: 0, light: L5, field: .9, tunnel: 1, halo: 1 };
+        mm = /^step(\d)$/.exec(name);
+        const dock = { ...base, cam: [0, 0, TZ + DT], look: [0, 0, TZ - 40], rig: [vt.w * (m ? .37 : .34), vt.h * (m ? .4 : .3), TZ], s: (m ? .1 : .22) * vt.h / H0, ry: -0.4, rx: 0, split: .12, light: m ? L5.map(() => .75) : L5, field: m ? .14 : .3, tunnel: 0, halo: m ? .35 : .55 };
+        if (mm) return { ...dock, split: .6, light: focusL(+mm[1]), ry: -0.55 + (+mm[1]) * .12, pop: +mm[1] };
+        if (name === "dock") return dock;
+        if (name === "final") return { ...base, cam: [0, 0, TZ + D], look: [0, 0, TZ], rig: [hx, hy, TZ], s: hs, ry: -0.3, rx: 0, split: 0, light: L5.map(() => 1.12), field: 1, tunnel: 0, halo: 1.25 };
+        return dock;
+      };
+      const anchors = $$("[data-k]");
+      let marks = [];
+      const measure = () => {
+        const vh = innerHeight;
+        marks = anchors.map(el => {
+          const r = el.getBoundingClientRect();
+          return { y: r.top + scrollY + Math.min(r.height, vh) * 0.5, k: el.dataset.k };
+        }).sort((a, b) => a.y - b.y);
+        // pin the hero key to the very top of the page
+        if (marks[0]) marks[0].y = Math.min(marks[0].y, innerHeight * 0.5);
+      };
+      const ease = t => t * t * (3 - 2 * t);
+      const lerp = (a, b, t) => a + (b - a) * t;
+      const mixK = (A, B, t) => {
+        const o = {};
+        for (const key in A) o[key] = Array.isArray(A[key]) ? A[key].map((v, i) => lerp(v, B[key][i], t)) : lerp(A[key], B[key], t);
+        return o;
+      };
+      const target = () => {
+        const c = scrollY + innerHeight * 0.5;
+        if (!marks.length) return { k: K("hero"), near: "hero", d: 0 };
+        if (c <= marks[0].y) return { k: K(marks[0].k), near: marks[0].k, d: 0 };
+        for (let i = 0; i < marks.length - 1; i++) {
+          const a = marks[i], b = marks[i + 1];
+          if (c >= a.y && c <= b.y) {
+            const t = (c - a.y) / Math.max(1, b.y - a.y);
+            return { k: mixK(K(a.k), K(b.k), ease(t)), near: t < .5 ? a.k : b.k, d: Math.min(t, 1 - t) };
+          }
+        }
+        const l = marks[marks.length - 1];
+        return { k: K(l.k), near: l.k, d: 0 };
+      };
+      let cur = null;
+      const damp = (a, b, f) => Array.isArray(a) ? a.map((v, i) => v + (b[i] - v) * f) : a + (b - a) * f;
+
+      /* --- the label that follows the focused part --- */
+      const tag = $("#part-tag");
+      const NAMES = (T.parts || ["Idea", "Brand", "Strategia", "Prodotto", "Tecnologia"]);
+      const v3 = new THREE.Vector3();
+
+      const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+      addEventListener("pointermove", e => { mouse.tx = e.clientX / innerWidth - .5; mouse.ty = e.clientY / innerHeight - .5; }, { passive: true });
+
+      const resize = () => {
+        const pr = Math.min(devicePixelRatio || 1, coarse ? 1.3 : 1.75);
+        renderer.setPixelRatio(pr); renderer.setSize(innerWidth, innerHeight, false);
+        camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+        starMat.uniforms.uPR.value = pr;
+        measure();
+      };
+      addEventListener("resize", resize);
+      resize();
+      // re-measure once fonts and late layout settle
+      setTimeout(measure, 600); setTimeout(measure, 2000);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+      $$("details").forEach(d => d.addEventListener("toggle", measure));
+
+      const clock = new THREE.Clock();
+      let raf = 0, first = true;
+      const frame = () => {
+        const t = clock.getElapsedTime();
+        const tg = target();
+        const f = reduce ? 1 : 0.085;
+        cur = cur ? Object.fromEntries(Object.keys(tg.k).map(k => [k, damp(cur[k], tg.k[k], f)])) : tg.k;
+        mouse.x += (mouse.tx - mouse.x) * .05; mouse.y += (mouse.ty - mouse.y) * .05;
+        const idle = reduce ? 0 : 1;
+        camera.position.set(cur.cam[0] + mouse.x * .6 * idle, cur.cam[1] - mouse.y * .4 * idle, cur.cam[2]);
+        lookAt.set(cur.look[0], cur.look[1], cur.look[2]);
+        camera.lookAt(lookAt);
+        rig.position.set(cur.rig[0], cur.rig[1] + Math.sin(t * .6) * .06 * idle, cur.rig[2]);
+        rig.scale.setScalar(cur.s);
+        core.rotation.set(cur.rx + Math.sin(t * .35) * .04 * idle, cur.ry + Math.sin(t * .25) * .12 * idle + mouse.x * .25 * idle, 0);
+        parts.forEach((p, i) => {
+          const sp = cur.split;
+          const popz = Math.max(0, cur.light[i] - 1) * 140 * sp;
+          p.holder.position.set(p.off[0] * sp * 95, p.off[1] * sp * 95, p.off[2] * sp * 95 + popz);
+          p.holder.rotation.set(p.rot[0] * sp, p.rot[1] * sp + Math.sin(t * .5 + i) * .05 * sp * idle, p.rot[2] * sp);
+          p.mat.uniforms.uLight.value = cur.light[i];
+          p.mat.uniforms.uAlpha.value = .55 + .45 * Math.min(1, cur.light[i]);
+          p.mat.uniforms.uTime.value = t;
+        });
+        field.rotation.y = t * .03 * idle;
+        lineMat.uniforms.uTime.value = t; lineMat.uniforms.uAlpha.value = cur.field;
+        halos.forEach((h, i) => (h.material.opacity = [.28, .3, .12][i] * cur.halo));
+        tunMat.uniforms.uAlpha.value = cur.tunnel; tunnel.visible = cur.tunnel > .01;
+        tunnel.rotation.z = t * .05 * idle;
+        starMat.uniforms.uTime.value = t;
+        renderer.render(scene, camera);
+        // label next to the focused part during the five layers
+        const lm = /^layer(\d)$/.exec(tg.near);
+        if (tag) {
+          if (lm && tg.d < .32) {
+            const i = +lm[1];
+            parts[i].holder.getWorldPosition(v3);
+            v3.project(camera);
+            const x = (v3.x * .5 + .5) * innerWidth, y = (-v3.y * .5 + .5) * innerHeight;
+            tag.textContent = String(i + 1).padStart(2, "0") + "  " + NAMES[i];
+            tag.style.transform = `translate(${Math.round(Math.min(x, innerWidth - 190))}px,${Math.round(Math.max(80, Math.min(y, innerHeight - 60)))}px)`;
+            tag.classList.add("on");
+          } else tag.classList.remove("on");
+        }
+        if (first) { first = false; root.classList.add("has3d"); }
+        raf = requestAnimationFrame(frame);
+      };
+      document.addEventListener("visibilitychange", () => { if (document.hidden) { cancelAnimationFrame(raf); raf = 0; } else if (!raf) raf = requestAnimationFrame(frame); });
+      raf = requestAnimationFrame(frame);
+    }
   })();
 
   /* ---------- command palette: the visitor can always leave the journey ---------- */
@@ -1777,7 +1913,7 @@ void main(){
       else if (e.key === "ArrowUp") { e.preventDefault(); idx = (idx - 1 + vis.length) % Math.max(1, vis.length); mark(); }
       else if (e.key === "Enter") { e.preventDefault(); if (vis[idx]) vis[idx].click(); }
     });
-    items.forEach(a => a.addEventListener("click", () => { dlg.close(); track("cmd_go", { to: a.getAttribute("href") }); }));
+    items.forEach(a => a.addEventListener("click", () => { if (a.hasAttribute("data-open-roi")) { const d = $("#roi"); if (d) d.open = true; } dlg.close(); track("cmd_go", { to: a.getAttribute("href") }); }));
     dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
   })();
 
@@ -1991,7 +2127,7 @@ void main(){
       if (d.website) return; // honeypot
       d.priority = d.prio; delete d.prio;
       d.has_site = d.site_url ? "si" : "no";
-      d.lang = NS.lang; d.source = "home-v4"; d.page = location.pathname;
+      d.lang = NS.lang; d.source = "home-v5"; d.page = location.pathname;
       lastMsg = compose(d);
       $$("[data-wa-lead]").forEach(a => (a.href = waLink(lastMsg)));
       btn.disabled = true; const label = btn.firstChild.textContent; btn.firstChild.textContent = T.sending || "Invio…";
