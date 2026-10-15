@@ -1843,7 +1843,7 @@ body{background:#040507}
       /* --- the real Nova model: five glass parts from the master GLB (no loader needed) --- */
       (async function loadNova() {
         try {
-          const buf = await (await fetch(NS.glb)).arrayBuffer();
+          const res = await fetch(NS.glb); const buf = /\.json$/.test(NS.glb) ? Uint8Array.from(atob((await res.json()).b64), c => c.charCodeAt(0)).buffer : await res.arrayBuffer();
           const dv = new DataView(buf);
           if (dv.getUint32(0, true) !== 0x46546C67) return;
           const jl = dv.getUint32(12, true);
