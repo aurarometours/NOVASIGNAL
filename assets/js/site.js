@@ -56,7 +56,23 @@
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
   }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
-  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  document.querySelectorAll(".reveal").forEach((el) => {
+    const sib = [...el.parentElement.children].filter((c) => c.classList.contains("reveal"));
+    el.style.setProperty("--d", Math.min(5, sib.indexOf(el)));
+    io.observe(el);
+  });
+  /* 3D tilt on pricing cards (pointer devices) */
+  if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    document.querySelectorAll(".plan").forEach((card) => {
+      card.addEventListener("pointermove", (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.setProperty("--ry", `${(px * 10).toFixed(2)}deg`);
+        card.style.setProperty("--rx", `${(-py * 8).toFixed(2)}deg`);
+      });
+      card.addEventListener("pointerleave", () => { card.style.setProperty("--ry", "0deg"); card.style.setProperty("--rx", "0deg"); });
+    });
+  }
 
   /* ---------- mobile menu ---------- */
   const burger = document.querySelector(".hd__burger");
@@ -116,16 +132,21 @@
   const off = [0];
   for (let i = 1; i < L.length; i++) off[i] = off[i - 1] + L[i - 1];
   const endOf = (i) => off[i] + L[i] - 1;
+  /* A: the square opens → logo · B: split · B reversed: lock · leg2: orbit · C: FPV through the rings → beacon */
   const SEG = [
-    { t: "hold", f: 0, vh: 0.75, ch: 0 },
-    { t: "leg", i: 0, vh: 2.1 },
-    { t: "hold", f: endOf(0), vh: 1.0, ch: 1 },
-    { t: "leg", i: 1, vh: 2.1 },
-    { t: "hold", f: endOf(1), vh: 1.0, ch: 2 },
-    { t: "leg", i: 2, vh: 2.1 },
-    { t: "hold", f: endOf(2), vh: 1.0, ch: 3 },
-    { t: "dissolve", vh: 1.4 },
+    { t: "hold", f: 0, vh: 0.8, ch: 0, dir: 1 },
+    { t: "leg", i: 0, vh: 2.7 },
+    { t: "hold", f: endOf(0), vh: 1.05, ch: 1, dir: 1 },
+    { t: "leg", i: 1, vh: 1.5 },
+    { t: "hold", f: endOf(1), vh: 1.1, ch: 2, dir: -1 },
+    { t: "leg", i: 1, vh: 1.2, rev: true },
+    { t: "leg", i: 2, vh: 2.3 },
+    { t: "hold", f: endOf(2), vh: 1.05, ch: 3, dir: 1 },
+    { t: "leg", i: 3, vh: 2.8 },
+    { t: "hold", f: endOf(3), vh: 1.0, ch: 4, dir: 0 },
+    { t: "dissolve", vh: 1.5 },
   ];
+  SEG.forEach((x, k) => { x.prev = SEG[k - 1]; });
   let vh = innerHeight;
   let filmTop = 0;
   let filmLen = 0;
@@ -160,8 +181,13 @@
     }
     return null;
   };
-  const drawImg = (img, c = ctx, W = canvas.width, H = canvas.height) => {
-    const [x, y, w, h] = cover(img, W, H);
+  const drawImg = (img, c = ctx, W = canvas.width, H = canvas.height, cs = 1, ctx_ = 0) => {
+    let [x, y, w, h] = cover(img, W, H);
+    if (cs !== 1 || ctx_) {
+      const nw = w * cs, nh = h * cs;
+      x = (W - nw) / 2 + ctx_ * W; y = (H - nh) / 2; w = nw; h = nh;
+      x = Math.min(0, Math.max(W - w, x));
+    }
     c.drawImage(img, x, y, w, h);
   };
 
@@ -189,24 +215,31 @@
   const drawDissolve = (t) => {
     if (sky) {
       const [x, y, w, h] = cover(sky, canvas.width, canvas.height);
-      const k = 1.1;
+      const k = 1.1 + 0.32 * Math.pow(1 - smooth(t), 2); /* camera pushes forward into the sky, lands on the content framing */
       ctx.drawImage(sky, x - (w * (k - 1)) / 2, y - (h * (k - 1)) / 2, w * k, h * k);
     } else { ctx.fillStyle = "#9cbde0"; ctx.fillRect(0, 0, canvas.width, canvas.height); }
     const last = frames[TOTAL - 1] || nearest(TOTAL - 1);
     if (!last) return;
     if (lastCanvasFor !== TOTAL - 1) { drawImg(last, lastX, lastC.width, lastC.height); lastCanvasFor = TOTAL - 1; }
-    const T = t * 1.12;
-    const EDGE = 0.1;
+    /* 3D shatter: each tile leaves the plane and flies past the camera (perspective projection) */
+    const W = canvas.width, H = canvas.height, cx = W / 2, cy = H / 2;
+    const T = t * 1.3;
+    const SPAN = 0.3;
+    const flying = [];
+    ctx.globalAlpha = 1;
     for (const b of blocks) {
-      if (b.n < T) continue;
-      const e = b.n - T;
-      if (e > EDGE) { ctx.globalAlpha = 1; ctx.drawImage(lastC, b.x, b.y, BS, BS, b.x, b.y, BS, BS); continue; }
-      const k = 1 - e / EDGE;
-      ctx.globalAlpha = 1 - k;
-      const dx = Math.cos(b.ang) * k * BS * 2.2;
-      const dy = Math.sin(b.ang) * k * BS * 2.2 - k * BS * 1.5;
-      const s = BS * (1 - k * 0.55);
-      ctx.drawImage(lastC, b.x, b.y, BS, BS, b.x + dx, b.y + dy, s, s);
+      const e = T - b.n;
+      if (e <= 0) { ctx.drawImage(lastC, b.x, b.y, BS, BS, b.x, b.y, BS, BS); continue; }
+      if (e < SPAN) flying.push(b, e / SPAN);
+    }
+    for (let j = 0; j < flying.length; j += 2) {
+      const b = flying[j], k = flying[j + 1];
+      const z = Math.pow(k, 1.6) * 0.92;
+      const p = 1 / (1 - z);
+      const bx = b.x + BS / 2 - cx, by = b.y + BS / 2 - cy;
+      const s = BS * p;
+      ctx.globalAlpha = Math.max(0, 1 - k * k);
+      ctx.drawImage(lastC, b.x, b.y, BS, BS, cx + bx * p - s / 2, cy + by * p - s / 2 - k * BS * 3, s, s);
     }
     ctx.globalAlpha = 1;
   };
@@ -221,6 +254,10 @@
   let nearEnd = false;
   let filmOn = true;
   let heroIntro = 0;
+  let filmOff = false;
+  let camS = 1, camX = 0, curS = 1, curX = 0, lastS = -1, lastCX = -1;
+  const hudCh = document.querySelector("[data-hud-ch]");
+  const hudF = document.querySelector("[data-hud-f]");
 
   const chapterRange = (k) => {
     const s = SEG.find((x) => x.ch === k);
@@ -237,9 +274,20 @@
     if (y < 0) seg = SEG[0];
     const local = clamp((y - seg.a) / (seg.b - seg.a));
     dissolveT = -1;
-    if (seg.t === "hold") targetF = seg.f;
-    else if (seg.t === "leg") targetF = off[seg.i] + local * (L[seg.i] - 1);
-    else { targetF = TOTAL - 1; dissolveT = local; }
+    camS = 1; camX = 0;
+    const PUSH = mobile ? 0.045 : 0.06;
+    if (seg.t === "hold") {
+      targetF = seg.f;
+      if (seg.dir !== 0) { const k = seg.ch === 0 ? Math.max(local, heroIntro * 0.35) : local; const e = smooth(k); camS = 1 + PUSH * e; camX = seg.dir * PUSH * 0.42 * e; }
+    } else if (seg.t === "leg") {
+      const p = seg.rev ? 1 - local : local;
+      targetF = off[seg.i] + p * (L[seg.i] - 1);
+      const pv = seg.prev;
+      if (pv && pv.t === "hold" && pv.dir !== 0) { const e = 1 - smooth(local / 0.4); camS = 1 + PUSH * e; camX = pv.dir * PUSH * 0.42 * e; }
+    } else { targetF = TOTAL - 1; dissolveT = local; }
+    stage.style.setProperty("--fg", dissolveT > 0 ? dissolveT.toFixed(4) : "0");
+    const off_ = dissolveT >= 0.995;
+    if (off_ !== filmOff) { filmOff = off_; root.classList.toggle("film-off", off_); }
 
     // chapters: fade in around their hold, fade out after
     let active = 0;
@@ -258,6 +306,11 @@
       if (y >= a - fadeIn) active = k;
     });
     if (railLabel && railLabel.textContent !== N.rail[active]) railLabel.textContent = N.rail[active];
+    if (hudCh) { const v = String(active + 1).padStart(2, "0"); if (hudCh.textContent !== v) hudCh.textContent = v; }
+    const r2 = chapters[2] ? (parseFloat(chapters[2].style.getPropertyValue("--a")) || 0) - (parseFloat(chapters[2].style.getPropertyValue("--o")) || 0) : 0;
+    stage.style.setProperty("--sr", clamp(r2).toFixed(3));
+    const h0 = chapters[0] ? (parseFloat(chapters[0].style.getPropertyValue("--a")) || 0) - (parseFloat(chapters[0].style.getPropertyValue("--o")) || 0) : 0;
+    stage.style.setProperty("--h0", clamp(h0).toFixed(3));
     if (railBar) railBar.style.setProperty("--rp", fp.toFixed(3));
 
     // shade fades during the dissolve so the sky reads clean
@@ -279,17 +332,27 @@
 
   const tick = () => {
     requestAnimationFrame(tick);
-    curF += (targetF - curF) * (reduce ? 1 : 0.2);
+    if (Math.abs(targetF - curF) > 14) curF = targetF; /* jumps between clips (after the reversed lock) never scrub */
+    curF += (targetF - curF) * (reduce ? 1 : 0.22);
     if (Math.abs(targetF - curF) < 0.01) curF = targetF;
+    curS += (camS - curS) * 0.12; curX += (camX - curX) * 0.12;
+    if (Math.abs(camS - curS) < 0.0002) curS = camS;
+    if (Math.abs(camX - curX) < 0.0002) curX = camX;
+    const camMoved = Math.abs(curS - lastS) > 0.0003 || Math.abs(curX - lastCX) > 0.0003;
     if (dissolveT >= 0) {
       if (dirty || Math.abs(dissolveT - lastDissolve) > 0.001) { drawDissolve(dissolveT); lastDissolve = dissolveT; lastDrawn = -2; dirty = false; }
       return;
     }
     lastDissolve = -1;
     const idx = Math.round(curF);
-    if (idx !== lastDrawn || dirty) {
+    if (idx !== lastDrawn || dirty || camMoved) {
       const img = nearest(idx);
-      if (img) { drawImg(img); lastDrawn = frames[idx] ? idx : -2; if (!root.classList.contains("canvas-live")) root.classList.add("canvas-live"); }
+      if (img) {
+        drawImg(img, ctx, canvas.width, canvas.height, curS, curX); lastS = curS; lastCX = curX;
+        lastDrawn = frames[idx] ? idx : -2;
+        if (hudF) hudF.textContent = String(idx).padStart(3, "0");
+        if (!root.classList.contains("canvas-live")) root.classList.add("canvas-live");
+      }
       dirty = false;
     }
   };
