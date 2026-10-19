@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NovaSignal — Siti web, app, software e identità digitale</title>
+<meta name="description" content="NovaSignal progetta e costruisce siti web, web app e software, app mobile e identità digitali su misura. Anteprima gratuita del design prima di firmare.">
+<meta name="theme-color" content="#8fb4d9">
+<meta name="robots" content="noindex">
+<link rel="icon" href="./img/nova-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
+<link rel="preload" as="image" href="./img/sky-d.webp" media="(min-width: 900px)">
+<link rel="preload" as="image" href="./img/sky-m.webp" media="(max-width: 899px)">
+<script>
+  /* decide the experience before first paint: cinema (WebGL + pinned scenes) or static editorial */
+  (function () {
+    var d = document.documentElement, q = new URLSearchParams(location.search);
+    var rm = matchMedia("(prefers-reduced-motion: reduce)").matches || q.has("static");
+    var gl = false;
+    try { var c = document.createElement("canvas"); gl = !!(c.getContext("webgl2") || c.getContext("webgl")); } catch (e) {}
+    if (q.has("nowebgl")) gl = false;
+    d.classList.add(rm || !gl ? "is-static" : "is-cinema");
+    if (!gl) d.classList.add("no-webgl");
+    if (rm) d.classList.add("reduced");
+    if (q.has("debug")) d.classList.add("debug");
+  })();
+</script>
+  <script type="module" crossorigin src="./assets/index-Bn36zj_j.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-ClkZZ_Tk.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="g-crown" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FF8A3D"/><stop offset="1" stop-color="#FFB25A"/></linearGradient>
+    <linearGradient id="g-core" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC15E"/><stop offset=".55" stop-color="#9ED98A"/><stop offset="1" stop-color="#2FD6C9"/></linearGradient>
+    <linearGradient id="g-tail" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5FD99A"/><stop offset="1" stop-color="#00CFFF"/></linearGradient>
+    <symbol id="nova-mark" viewBox="-1 -1 34 51">
+      <polygon points="21.5,0 21.5,18.5 0.5,18.5" fill="url(#g-crown)"/>
+      <polygon points="9.5,18.5 21.5,18.5 21.5,19.5 22,19.5 22,29 10,29 10,28.5 9.5,28.5" fill="url(#g-core)"/>
+      <polygon points="0.5,18.5 9.5,18.5 9.5,28.5 0.5,28.5" fill="#F8FEFF"/>
+      <polygon points="22,19.5 31.5,19.5 31.5,29 22,29" fill="#7FF0E6" fill-opacity=".92"/>
+      <polygon points="10,48.5 10,29 31.5,29" fill="url(#g-tail)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#soluzioni">Salta l'esperienza</a>
+
+<!-- D0 + D1: one persistent WebGL world (sky, clouds, the five-part prism). Decorative: everything important is HTML. -->
+<canvas class="world" aria-hidden="true"></canvas>
+<div class="world-static" aria-hidden="true"></div>
+
+<header class="hd">
+  <a class="hd__brand" href="#top" aria-label="NovaSignal, torna all'inizio">
+    <svg class="hd__mark" viewBox="-1 -1 34 51" aria-hidden="true"><use href="#nova-mark"/></svg>
+    <span>NovaSignal</span>
+  </a>
+  <nav class="hd__nav" aria-label="Principale">
+    <a href="#soluzioni">Soluzioni</a>
+    <a href="#prezzi">Prezzi</a>
+    <a href="#metodo">Metodo</a>
+    <a href="#contatti">Contatti</a>
+  </nav>
+  <div class="hd__right">
+    <a class="mini" href="#top" aria-label="Logo NovaSignal: torna all'inizio" data-mini>
+      <canvas class="mini__gl" aria-hidden="true"></canvas>
+      <svg class="mini__svg" viewBox="-1 -1 34 51" aria-hidden="true"><use href="#nova-mark"/></svg>
+    </a>
+    <a class="btn btn--solid hd__cta" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20l'anteprima%20gratuita%20del%20mio%20nuovo%20sito." target="_blank" rel="noopener noreferrer">Richiedi anteprima</a>
+    <button class="hd__burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Apri il menu"><i></i><i></i></button>
+  </div>
+  <div class="menu" id="menu" hidden>
+    <a href="#soluzioni">Soluzioni</a>
+    <a href="#prezzi">Prezzi</a>
+    <a href="#metodo">Metodo</a>
+    <a href="#contatti">Contatti</a>
+    <a class="btn btn--solid" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20l'anteprima%20gratuita%20del%20mio%20nuovo%20sito." target="_blank" rel="noopener noreferrer">Richiedi anteprima</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- 01 FORGE + 02 ASCENT -->
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="hero__stage">
+      <div class="hero__copy" data-hero>
+        <p class="eyebrow"><span class="eyebrow__line"></span>Studio digitale · Roma → ovunque</p>
+        <h1 class="hero__title" id="hero-title">
+          <span class="ln"><span>Siti web, app,</span></span>
+          <span class="ln"><span>software e <em>identità</em></span></span>
+          <span class="ln"><span>che accendono il tuo segnale.</span></span>
+        </h1>
+        <p class="hero__lead">Progettiamo e costruiamo su misura, dal primo schizzo alla messa online. Vedi il design della tua home prima di firmare: l'anteprima è gratuita.</p>
+        <div class="hero__ctas">
+          <a class="btn btn--solid" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20l'anteprima%20gratuita%20del%20mio%20nuovo%20sito." target="_blank" rel="noopener noreferrer">Richiedi un'anteprima <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--glass" href="#soluzioni">Esplora le soluzioni</a>
+          <a class="btn btn--link" href="#prezzi">Vedi i prezzi</a>
+        </div>
+      </div>
+      <img class="hero__mark-static" src="./img/nova-mark.svg" alt="" width="200" height="300">
+      <p class="hero__scroll" aria-hidden="true"><i></i>Scorri</p>
+    </div>
+  </section>
+
+  <!-- 03 EXPANSION: the prism splits and its energy becomes four product cards -->
+  <section class="sol" id="soluzioni" aria-labelledby="sol-title">
+    <div class="sol__stage">
+      <header class="sol__head" data-sol-head>
+        <p class="eyebrow"><span class="eyebrow__line"></span>Soluzioni</p>
+        <h2 class="sol__title" id="sol-title">Un segnale, <em>quattro</em> forme.</h2>
+      </header>
+
+      <div class="cards">
+        <article class="card card--web" data-card="0" aria-labelledby="c0-t">
+          <div class="card__demo demo-web" tabindex="0" aria-label="Anteprima interattiva: sito web. Passa sopra o metti a fuoco per scorrere la pagina dimostrativa.">
+            <div class="demo-web__bar"><i></i><i></i><i></i><span>tuosito.it</span></div>
+            <div class="demo-web__view"><div class="demo-web__page">
+              <div class="dw-hero"><b></b><s></s><s class="s2"></s><em></em></div>
+              <div class="dw-row"><i></i><i></i><i></i></div>
+              <div class="dw-band"></div>
+              <div class="dw-row dw-row--2"><i></i><i></i></div>
+              <div class="dw-foot"></div>
+            </div></div>
+          </div>
+          <p class="card__k"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3zM3 9h18M7 7h0"/></svg>01 · Siti web</p>
+          <h3 class="card__t" id="c0-t">Siti che si <em>vivono</em></h3>
+          <p class="card__d">Vetrine, landing ed e-commerce progettati da zero: design originale, motion e velocità.</p>
+          <div class="card__a">
+            <button class="card__more" type="button" data-open="d-web">Scopri i siti</button>
+            <a class="card__wa" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20parlare%20di%20un%20sito%20web." target="_blank" rel="noopener noreferrer">WhatsApp ↗</a>
+          </div>
+        </article>
+
+        <article class="card card--saas" data-card="1" aria-labelledby="c1-t">
+          <div class="card__demo demo-saas" aria-label="Anteprima interattiva: dashboard dimostrativa">
+            <div class="ds-side"><i class="on"></i><i></i><i></i><i></i></div>
+            <div class="ds-main">
+              <div class="ds-top"><span>Dashboard · dati demo</span>
+                <div class="ds-tabs" role="group" aria-label="Periodo demo">
+                  <button type="button" aria-pressed="true" data-range="w">7g</button>
+                  <button type="button" aria-pressed="false" data-range="m">30g</button>
+                </div>
+              </div>
+              <div class="ds-kpi"><div><small>Richieste</small><b data-kpi="0">24</b></div><div><small>Ordini</small><b data-kpi="1">9</b></div><div><small>Attivi</small><b data-kpi="2">3</b></div></div>
+              <div class="ds-chart" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          <p class="card__k"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM9 4v16M12 15l3-3 2 2 3-4"/></svg>02 · Web app & SaaS</p>
+          <h3 class="card__t" id="c1-t">Software che <em>lavora</em> per te</h3>
+          <p class="card__d">Gestionali, portali clienti e SaaS costruiti attorno ai tuoi processi, con backend e pannello admin.</p>
+          <div class="card__a">
+            <button class="card__more" type="button" data-open="d-saas">Scopri il software</button>
+            <a class="card__wa" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20parlare%20di%20un%20progetto%20app%20%2F%20software." target="_blank" rel="noopener noreferrer">WhatsApp ↗</a>
+          </div>
+        </article>
+
+        <article class="card card--brand" data-card="2" aria-labelledby="c2-t">
+          <div class="card__demo demo-brand" tabindex="0" aria-label="Anteprima interattiva: dalla griglia al marchio, palette e biglietto">
+            <svg class="db-svg" viewBox="0 0 220 120" aria-hidden="true">
+              <g class="db-grid"><path d="M20 10v100M50 10v100M80 10v100M110 10v100M20 20h90M20 50h90M20 80h90M20 110h90"/></g>
+              <path class="db-mark" d="M86 14 L86 46 L36 46 Z M44 46 L86 46 L86 74 L44 74 Z M48 74 L48 108 L86 74"/>
+              <g class="db-pal"><rect x="132" y="18" width="16" height="16" rx="3" fill="#FF8A3D"/><rect x="152" y="18" width="16" height="16" rx="3" fill="#FFC15E"/><rect x="172" y="18" width="16" height="16" rx="3" fill="#2FD6C9"/><rect x="192" y="18" width="16" height="16" rx="3" fill="#0C1626"/></g>
+              <g class="db-card"><rect x="132" y="50" width="76" height="46" rx="4"/><path d="M142 66h30M142 74h44M142 82h22"/></g>
+            </svg>
+          </div>
+          <p class="card__k"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 9-9 9-9-9zM12 8v8M8 12h8"/></svg>03 · Brand</p>
+          <h3 class="card__t" id="c2-t">Un'identità <em>riconoscibile</em></h3>
+          <p class="card__d">Logo, palette, tipografia e linee guida, pronti per sito, social e materiali stampati.</p>
+          <div class="card__a">
+            <button class="card__more" type="button" data-open="d-brand">Scopri il brand</button>
+            <a class="card__wa" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20parlare%20di%20identit%C3%A0%20di%20brand." target="_blank" rel="noopener noreferrer">WhatsApp ↗</a>
+          </div>
+        </article>
+
+        <article class="card card--mob" data-card="3" aria-labelledby="c3-t">
+          <div class="card__demo demo-mob" aria-label="Anteprima interattiva: schermate di un'app">
+            <div class="dm-win">
+              <div class="dm-track" data-screen="0">
+                <div class="dm-scr"><b>Oggi</b><i></i><i></i><i class="w"></i></div>
+                <div class="dm-scr"><b>Prenota</b><em></em><em></em><em class="on"></em><i></i></div>
+                <div class="dm-scr"><b>Profilo</b><s></s><i></i><i class="w"></i></div>
+              </div>
+              <div class="dm-dots" role="group" aria-label="Schermate demo">
+                <button type="button" aria-pressed="true" aria-label="Schermata 1"></button>
+                <button type="button" aria-pressed="false" aria-label="Schermata 2"></button>
+                <button type="button" aria-pressed="false" aria-label="Schermata 3"></button>
+              </div>
+            </div>
+          </div>
+          <p class="card__k"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10v20H7zM10 18h4"/></svg>04 · App mobile</p>
+          <h3 class="card__t" id="c3-t">App che sembrano <em>già</em> un prodotto</h3>
+          <p class="card__d">iOS e Android, dal prototipo cliccabile alla pubblicazione sugli store.</p>
+          <div class="card__a">
+            <button class="card__more" type="button" data-open="d-mob">Scopri le app</button>
+            <a class="card__wa" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20parlare%20di%20un'app%20mobile." target="_blank" rel="noopener noreferrer">WhatsApp ↗</a>
+          </div>
+        </article>
+      </div>
+      <p class="sol__more">Anche <strong>SEO & visibilità AI</strong> e <strong>campagne Ads</strong>, come servizi continuativi: <a href="#addon">vedi Orbit e Pulse</a>.</p>
+    </div>
+  </section>
+
+  <!-- 04 ATMOSPHERE: the day turns to dusk while the method is read -->
+  <section class="method" id="metodo" aria-labelledby="m-title">
+    <header class="sec-head rv">
+      <p class="eyebrow"><span class="eyebrow__line"></span>Metodo</p>
+      <h2 class="sec-title" id="m-title">Dalla telefonata al lancio.<br><em>In quattro passi.</em></h2>
+    </header>
+    <ol class="steps">
+      <li class="step rv"><span class="step__t">Giorno 1</span><h3>Ascolto</h3><p>Venti minuti al telefono o su WhatsApp: obiettivi, pubblico, budget. Niente gergo tecnico.</p></li>
+      <li class="step rv"><span class="step__t">Entro 72 ore</span><h3>Anteprima</h3><p>Ti mostriamo il design della tua home prima che tu firmi qualsiasi cosa. Gratis e senza impegno.</p></li>
+      <li class="step rv"><span class="step__t">2-6 settimane</span><h3>Costruzione</h3><p>Design, sviluppo, contenuti e test. Vedi i progressi ogni settimana con un link sempre aggiornato.</p></li>
+      <li class="step rv"><span class="step__t">Per sempre</span><h3>Lancio & crescita</h3><p>Online, indicizzato e misurato. Poi SEO e campagne per far arrivare il segnale sempre più lontano.</p></li>
+    </ol>
+  </section>
+
+  <!-- 05 OFFERS -->
+  <section class="offers" id="prezzi" aria-labelledby="p-title">
+    <header class="sec-head rv">
+      <p class="eyebrow"><span class="eyebrow__line"></span>Prezzi</p>
+      <h2 class="sec-title" id="p-title">Scegli la tua <em>orbita</em>.</h2>
+      <p class="sec-lead">Prezzi chiari, IVA esclusa. Software e progetti speciali hanno un preventivo dedicato dopo la prima chiamata.</p>
+    </header>
+    <div class="plans">
+      <article class="plan plan--signal rv" aria-labelledby="pl0">
+        <div class="plan__pv pv-signal" aria-hidden="true"><div class="pv-frame"><i></i><s></s><s class="s2"></s><em></em></div></div>
+        <header class="plan__h"><h3 id="pl0">Signal</h3><p>Sito vetrina premium</p></header>
+        <p class="plan__price"><strong>€1.900</strong><small>una tantum</small></p>
+        <ul class="plan__list"><li>Design su misura, zero template</li><li>Fino a 6 pagine</li><li>Animazioni e micro-interazioni</li><li>SEO tecnica + Google Business</li><li>Perfetto su mobile</li><li>Online in 3 settimane</li></ul>
+        <a class="btn btn--glass plan__cta" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20mi%20interessa%20il%20piano%20Signal%20(sito%20vetrina%20premium)." target="_blank" rel="noopener noreferrer">Inizia con Signal ↗</a>
+      </article>
+      <article class="plan plan--nova rv" aria-labelledby="pl1">
+        <span class="plan__badge">Consigliato</span>
+        <div class="plan__pv pv-nova" aria-hidden="true"><div class="pv-layer l3"></div><div class="pv-layer l2"></div><div class="pv-layer l1"><i></i><s></s><em></em></div></div>
+        <header class="plan__h"><h3 id="pl1">Nova</h3><p>Sito immersivo 3D o e-commerce</p></header>
+        <p class="plan__price"><strong>€4.900</strong><small>una tantum</small></p>
+        <ul class="plan__list"><li>Tutto quello di Signal</li><li>Scroll motion 3D e video cinematografici</li><li>Fino a 12 pagine o 100 prodotti</li><li>Sito multilingua IT / EN</li><li>SEO avanzata e analytics</li><li>Online in 5-6 settimane</li></ul>
+        <a class="btn btn--solid plan__cta" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20mi%20interessa%20il%20piano%20Nova%20(sito%20immersivo%203D%20%2F%20e-commerce)." target="_blank" rel="noopener noreferrer">Voglio un sito Nova ↗</a>
+      </article>
+      <article class="plan plan--super rv" aria-labelledby="pl2">
+        <div class="plan__pv pv-super" aria-hidden="true"><div class="pv-stack"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i></div></div>
+        <header class="plan__h"><h3 id="pl2">Supernova</h3><p>App, web app e software</p></header>
+        <p class="plan__price"><small>da</small><strong>€14.000</strong><small>progetto</small></p>
+        <ul class="plan__list"><li>Discovery e prototipo cliccabile</li><li>UX/UI design di prodotto</li><li>App iOS & Android, web app o SaaS</li><li>Backend, API e pannello admin</li><li>Pubblicazione sugli store</li><li>Roadmap ed evoluzione continua</li></ul>
+        <a class="btn btn--glass plan__cta" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20parlare%20di%20un%20progetto%20app%20%2F%20software." target="_blank" rel="noopener noreferrer">Parliamo del progetto ↗</a>
+      </article>
+    </div>
+    <div class="addons rv" id="addon" aria-labelledby="ad-title">
+      <h3 class="addons__t" id="ad-title">Crescita continua</h3>
+      <ul>
+        <li><b>Orbit</b><span>SEO continuativa · contenuti, link, local SEO e report mensile</span><strong>€490<small>/mese</small></strong></li>
+        <li><b>Pulse</b><span>Campagne Ads · Google e Meta, creatività incluse. Budget pubblicitario a parte</span><strong>€590<small>/mese</small></strong></li>
+        <li><b>Care</b><span>Manutenzione · hosting, backup, aggiornamenti e piccole modifiche</span><strong>€79<small>/mese</small></strong></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 06 TRANSMIT -->
+  <section class="contact" id="contatti" aria-labelledby="ct-title">
+    <svg class="contact__line" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="g-line" x1="0" x2="1"><stop offset="0" stop-color="#F8FEFF" stop-opacity="0"/><stop offset=".55" stop-color="#F8FEFF"/><stop offset="1" stop-color="#00CFFF"/></linearGradient></defs><path d="M0 100 C 300 100, 420 20, 1000 20"/></svg>
+    <div class="contact__box rv">
+      <p class="eyebrow"><span class="eyebrow__line"></span>Contatti</p>
+      <h2 class="sec-title" id="ct-title">Accendi il tuo <em>segnale</em>.</h2>
+      <p class="sec-lead">Raccontaci il progetto in due righe. Ti rispondiamo in giornata con le prime idee e, se vuoi, con un'anteprima gratuita.</p>
+      <div class="contact__ctas">
+        <a class="btn btn--solid btn--lg" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20parlare%20di%20un%20progetto." target="_blank" rel="noopener noreferrer">Scrivici su WhatsApp ↗</a>
+        <a class="btn btn--glass" href="mailto:studio@novasignal.it">studio@novasignal.it</a>
+        <a class="btn btn--link" href="tel:+393206891014">Chiama +39 320 689 1014</a>
+      </div>
+    </div>
+    <footer class="ft"><span>© 2026 NovaSignal</span><span>Prototipo Living Cinema · non indicizzato</span></footer>
+  </section>
+</main>
+
+<!-- details for the four cards -->
+<dialog class="dlg" id="d-web" aria-labelledby="d-web-t"><form method="dialog"><button class="dlg__x" aria-label="Chiudi">×</button></form>
+  <p class="eyebrow">01 · Siti web</p><h3 id="d-web-t">Siti web su misura</h3>
+  <p>Siti vetrina, landing page ed e-commerce progettati da zero: design originale, motion e velocità, pensati per trasformare visite in contatti. Shopify o sviluppo custom per i negozi online.</p>
+  <p class="dlg__p">Piani: <a href="#prezzi" data-close>Signal da €1.900 · Nova da €4.900</a></p>
+  <a class="btn btn--solid" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20parlare%20di%20un%20sito%20web." target="_blank" rel="noopener noreferrer">Parliamone su WhatsApp ↗</a></dialog>
+<dialog class="dlg" id="d-saas" aria-labelledby="d-saas-t"><form method="dialog"><button class="dlg__x" aria-label="Chiudi">×</button></form>
+  <p class="eyebrow">02 · Web app & SaaS</p><h3 id="d-saas-t">Software & web app</h3>
+  <p>SaaS, gestionali, dashboard e portali clienti costruiti attorno ai tuoi processi, con backend scalabile e pannello di amministrazione. Si parte da discovery e prototipo cliccabile.</p>
+  <p class="dlg__p">Piano: <a href="#prezzi" data-close>Supernova da €14.000</a></p>
+  <a class="btn btn--solid" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20parlare%20di%20un%20progetto%20app%20%2F%20software." target="_blank" rel="noopener noreferrer">Parliamone su WhatsApp ↗</a></dialog>
+<dialog class="dlg" id="d-brand" aria-labelledby="d-brand-t"><form method="dialog"><button class="dlg__x" aria-label="Chiudi">×</button></form>
+  <p class="eyebrow">03 · Brand</p><h3 id="d-brand-t">Identità digitale</h3>
+  <p>Logo, palette, tipografia e regole d'uso, progettati insieme al sito perché tutto parli la stessa lingua. Preventivo dopo la prima chiamata.</p>
+  <a class="btn btn--solid" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20parlare%20di%20identit%C3%A0%20di%20brand." target="_blank" rel="noopener noreferrer">Parliamone su WhatsApp ↗</a></dialog>
+<dialog class="dlg" id="d-mob" aria-labelledby="d-mob-t"><form method="dialog"><button class="dlg__x" aria-label="Chiudi">×</button></form>
+  <p class="eyebrow">04 · App mobile</p><h3 id="d-mob-t">App iOS & Android</h3>
+  <p>App native o cross-platform (Flutter / React Native) dal prototipo cliccabile alla pubblicazione sugli store.</p>
+  <p class="dlg__p">Piano: <a href="#prezzi" data-close>Supernova da €14.000</a></p>
+  <a class="btn btn--solid" href="https://wa.me/393206891014?text=Ciao%20NovaSignal%2C%20vorrei%20parlare%20di%20un'app%20mobile." target="_blank" rel="noopener noreferrer">Parliamone su WhatsApp ↗</a></dialog>
+
+<aside class="dbg" aria-label="Debug" hidden>
+  <label>Scena <input type="range" min="0" max="1000" value="0" data-dbg-range></label>
+  <output data-dbg-out>—</output>
+</aside>
+
+</body>
+</html>

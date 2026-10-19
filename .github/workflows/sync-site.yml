@@ -32,7 +32,7 @@ jobs:
 
       - name: Replace site files
         run: |
-          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .github ! -name site-bundle.txt -exec rm -rf {} +
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name .github ! -name site-bundle.txt ! -name nova3 -exec rm -rf {} +
           unzip -q "$RUNNER_TEMP/site.zip" -d .
           touch .nojekyll
 
