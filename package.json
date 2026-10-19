@@ -1,0 +1,20 @@
+{
+  "name": "nova-living-cinema",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview --host",
+    "qa": "node qa/run-qa.mjs",
+    "preview:single": "node scripts/build-preview.mjs"
+  },
+  "dependencies": {
+    "three": "0.169.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.1",
+    "vite": "5.4.10"
+  }
+}
