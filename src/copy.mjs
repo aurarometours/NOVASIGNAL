@@ -51,6 +51,10 @@ export const copy = {
       ],
     },
     pricing: {
+      word: "Prezzi",
+      cur: "€", locale: "it-IT",
+      nums: [1900, 4900, 14000], gnums: [490, 590, 79],
+      cfg: { title: "Componi il tuo <em>preventivo</em>.", plan: "Progetto", growth: "Crescita continua", total: "Il tuo preventivo", once: "una tantum", monthly: "/mese", plus: "+", none: "Nessun servizio mensile", from: "da", cta: "Richiedi questo preventivo", intro: "Ciao NovaSignal, vorrei un preventivo per:", note: "Cifre IVA esclusa, prese dal listino qui sopra. Il preventivo definitivo è scritto e fisso." },
       kicker: "Prezzi",
       title: "Prezzi chiari.<br>Valore che <em>si vede</em>.",
       lead: "Preventivo fisso e scritto, nessuna sorpresa. E prima di firmare vedi l'anteprima del tuo progetto.",
@@ -134,6 +138,10 @@ export const copy = {
       ],
     },
     pricing: {
+      word: "Pricing",
+      cur: "$", locale: "en-US",
+      nums: [2200, 5600, 16000], gnums: [590, 690, 99],
+      cfg: { title: "Build your <em>quote</em>.", plan: "Project", growth: "Ongoing growth", total: "Your quote", once: "one-time", monthly: "/mo", plus: "+", none: "No monthly services", from: "from", cta: "Request this quote", intro: "Hi NovaSignal, I'd like a quote for:", note: "Figures exclude VAT where applicable and come from the price list above. Your final quote is written and fixed." },
       kicker: "Pricing",
       title: "Clear pricing.<br>Value you can <em>see</em>.",
       lead: "A fixed, written quote with no surprises. And before you sign, you get to see a preview of your project.",

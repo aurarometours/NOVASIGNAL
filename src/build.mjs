@@ -45,15 +45,24 @@ const page = (t) => {
 </dialog>`).join("");
   const steps = t.method.steps.map(([time, title, body], i) => `
           <li class="step" style="--i:${i}"><span class="step__n">0${i + 1}</span><span class="step__time">${time}</span><h3 class="step__t">${title}</h3><p class="step__d">${body}</p></li>`).join("");
-  const plans = t.pricing.plans.map((p) => `
-        <article class="plan${p.featured ? " plan--featured" : ""} rv" aria-labelledby="p-${p.name}">
-          ${p.featured ? `<div class="plan__media"><img src="${R}assets/img/f270-s.webp" alt="" loading="lazy" width="760" height="428"><span class="plan__badge">${t.pricing.featured}</span></div>` : ""}
-          <h3 class="plan__name" id="p-${p.name}">${p.name}</h3>
-          <p class="plan__for">${p.for}</p>
-          <p class="plan__price">${p.from ? `<small>${p.from}</small>` : ""}<strong>${p.price}</strong><small>${p.unit}</small></p>
-          <ul class="plan__list">${p.features.map((f) => `<li>${f}</li>`).join("")}</ul>
-          <a class="btn ${p.featured ? "btn--light" : "btn--line"} plan__cta" href="${wa(p.msg)}" target="_blank" rel="noopener noreferrer"><span>${p.cta}</span>${ARROW}</a>
+  const CHECK = `<svg class="ico ico--check" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5 6.5 11.5 12.5 4.5"/></svg>`;
+  const plans = t.pricing.plans.map((p, i) => `
+        <article class="pc${p.featured ? " pc--featured" : ""}" style="--i:${i}" data-plan="${i}" aria-labelledby="p-${p.name}">
+          <i class="pc__glow" aria-hidden="true"></i>
+          <header class="pc__head">
+            <p class="pc__tier">${p.for}</p>
+            ${p.featured ? `<span class="pc__badge">${t.pricing.featured}</span>` : ""}
+          </header>
+          <h3 class="pc__name" id="p-${p.name}">${p.name}</h3>
+          <p class="pc__price">${p.from ? `<small>${p.from}</small>` : ""}<strong>${p.price}</strong><span>${p.unit}</span></p>
+          <ul class="pc__list">${p.features.map((f) => `<li>${CHECK}<span>${f}</span></li>`).join("")}</ul>
+          <div class="pc__foot">
+            <a class="btn ${p.featured ? "btn--light" : "btn--glass"} pc__cta" href="${wa(p.msg)}" target="_blank" rel="noopener noreferrer"><span>${p.cta}</span>${ARROW}</a>
+            <button class="pc__pick" type="button" data-pick="${i}" aria-label="${t.pricing.cfg.plan}: ${p.name}">${t.pricing.cfg.plan === "Progetto" ? "Componi" : "Configure"}</button>
+          </div>
         </article>`).join("");
+  const cfgPlans = t.pricing.plans.map((p, i) => `<button type="button" class="seg__b" role="radio" aria-checked="${p.featured ? "true" : "false"}" data-seg="${i}"><b>${p.name}</b><span>${p.from ? p.from + " " : ""}${p.price}</span></button>`).join("");
+  const cfgGrowth = t.pricing.growth.map(([n, what, d, p, u], i) => `<label class="tg"><input type="checkbox" data-g="${i}"><span class="tg__sw" aria-hidden="true"><i></i></span><span class="tg__txt"><b>${n}</b> ${what}</span><em>+${p}<small>${u}</small></em></label>`).join("");
   const growth = t.pricing.growth.map(([n, what, d, p, u]) => `<li><b>${n}</b><span><strong>${what}</strong> ${d}</span><em>${p}<small>${u}</small></em></li>`).join("");
   const faq = t.faq.items.map(([q, a]) => `
         <details class="qa rv"><summary><span>${q}</span><i aria-hidden="true"></i></summary><p>${a}</p></details>`).join("");
@@ -159,18 +168,34 @@ ${NOINDEX ? '<meta name="robots" content="noindex">\n' : ""}<meta name="theme-co
     </div>
   </section>
 
-  <section class="pricing" id="prezzi" data-theme="dark" aria-labelledby="p-t">
-    <header class="head rv">
-      <p class="kicker"><span></span>${t.pricing.kicker}</p>
-      <h2 class="head__t" id="p-t">${t.pricing.title}</h2>
-      <p class="head__lead">${t.pricing.lead}</p>
-    </header>
-    <div class="plans">${plans}
+  <section class="pricing" id="prezzi" data-theme="dark" data-pricing aria-labelledby="p-t">
+    <div class="pricing__sky" aria-hidden="true"><img src="${R}assets/img/f300.webp" alt="" loading="lazy" width="1400" height="788"></div>
+    <div class="pricing__stage">
+      <p class="pricing__word" aria-hidden="true">${[...t.pricing.word.toUpperCase()].map((c, i) => `<span style="--i:${i}">${c}</span>`).join("")}</p>
+      <div class="pricing__prism" aria-hidden="true"><img src="${R}assets/img/logo-cut.webp" alt="" loading="lazy" width="520" height="806"></div>
+      <header class="pricing__head">
+        <h2 class="pricing__t" id="p-t">${t.pricing.title}</h2>
+        <p class="pricing__lead">${t.pricing.lead}</p>
+      </header>
+      <div class="pcs">${plans}
+      </div>
     </div>
-    <div class="growth rv">
-      <h3 class="growth__t">${t.pricing.growthTitle}</h3>
-      <ul>${growth}</ul>
-      <p class="growth__note">${t.pricing.note}</p>
+
+    <div class="cfg rv" data-cfg data-cur="${t.pricing.cur}" data-locale="${t.pricing.locale}" data-nums="${t.pricing.nums.join(",")}" data-gnums="${t.pricing.gnums.join(",")}" data-names="${t.pricing.plans.map((p) => p.name).join(",")}" data-gnames="${t.pricing.growth.map((g) => g[0] + " (" + g[1] + ")").join("|")}" data-from="${t.pricing.cfg.from}" data-once="${t.pricing.cfg.once}" data-monthly="${t.pricing.cfg.monthly}" data-intro="${t.pricing.cfg.intro}" data-wa="https://wa.me/393206891014?text=">
+      <div class="cfg__left">
+        <h3 class="cfg__t">${t.pricing.cfg.title}</h3>
+        <p class="cfg__lbl">${t.pricing.cfg.plan}</p>
+        <div class="seg" role="radiogroup" aria-label="${t.pricing.cfg.plan}">${cfgPlans}</div>
+        <p class="cfg__lbl">${t.pricing.cfg.growth}</p>
+        <div class="tgs">${cfgGrowth}</div>
+      </div>
+      <div class="cfg__right">
+        <p class="cfg__lbl">${t.pricing.cfg.total}</p>
+        <p class="cfg__total" aria-live="polite"><small data-out-from></small><strong data-out-once>—</strong><span>${t.pricing.cfg.once}</span></p>
+        <p class="cfg__month" data-out-month data-none="${t.pricing.cfg.none}">${t.pricing.cfg.none}</p>
+        <a class="btn btn--light btn--lg cfg__cta" data-out-wa href="${wa(t.ctaMsg)}" target="_blank" rel="noopener noreferrer">${WAICO}<span>${t.pricing.cfg.cta}</span></a>
+        <p class="cfg__note">${t.pricing.cfg.note}</p>
+      </div>
     </div>
   </section>
 

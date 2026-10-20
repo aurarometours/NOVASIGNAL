@@ -45,6 +45,59 @@
     rvs.forEach((el) => io.observe(el));
   } else rvs.forEach((el) => el.classList.add("in"));
 
+
+  /* ---------- pricing: entrance, card light, live quote ---------- */
+  const pricing = $("[data-pricing]");
+  if (pricing) {
+    if (reduced || !("IntersectionObserver" in window)) pricing.classList.add("in");
+    else new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) pricing.classList.add("in");
+      else if (e.boundingClientRect.top > 0) pricing.classList.remove("in");
+    }), { threshold: 0.12 }).observe(pricing);
+    $$(".pc", pricing).forEach((c) => {
+      c.addEventListener("pointermove", (e) => {
+        if (e.pointerType === "touch") return;
+        const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        c.style.setProperty("--mx", `${(x * 100).toFixed(1)}%`); c.style.setProperty("--my", `${(y * 100).toFixed(1)}%`);
+        c.style.setProperty("--ry", `${((x - 0.5) * 6).toFixed(2)}deg`); c.style.setProperty("--rx", `${((0.5 - y) * 5).toFixed(2)}deg`);
+      });
+      c.addEventListener("pointerleave", () => { c.style.removeProperty("--rx"); c.style.removeProperty("--ry"); });
+    });
+    const cfg = $("[data-cfg]");
+    const nums = cfg.dataset.nums.split(",").map(Number), gnums = cfg.dataset.gnums.split(",").map(Number);
+    const names = cfg.dataset.names.split(","), gnames = cfg.dataset.gnames.split("|");
+    const fmt = new Intl.NumberFormat(cfg.dataset.locale, { maximumFractionDigits: 0 });
+    const money = (v) => cfg.dataset.cur === "$" ? `$${fmt.format(v)}` : `€${fmt.format(v)}`;
+    const segs = $$("[data-seg]", cfg), toggles = $$("[data-g]", cfg);
+    const outOnce = $("[data-out-once]", cfg), outFrom = $("[data-out-from]", cfg), outMonth = $("[data-out-month]", cfg), outWa = $("[data-out-wa]", cfg);
+    let plan = segs.findIndex((b) => b.getAttribute("aria-checked") === "true"); if (plan < 0) plan = 1;
+    let shown = nums[plan], raf = 0;
+    const animateTo = (v) => {
+      cancelAnimationFrame(raf);
+      const from = shown, t0 = performance.now(), dur = reduced ? 0 : 650;
+      const step = (now) => { const k = dur ? Math.min(1, (now - t0) / dur) : 1; const e = 1 - Math.pow(1 - k, 3); shown = Math.round(from + (v - from) * e); outOnce.textContent = money(shown); if (k < 1) raf = requestAnimationFrame(step); };
+      raf = requestAnimationFrame(step);
+    };
+    const update = () => {
+      segs.forEach((b, i) => b.setAttribute("aria-checked", String(i === plan)));
+      $$(".pc", pricing).forEach((c, i) => c.classList.toggle("is-picked", i === plan));
+      outFrom.textContent = plan === 2 ? cfg.dataset.from : "";
+      animateTo(nums[plan]);
+      const picked = toggles.filter((t) => t.checked).map((t) => +t.dataset.g);
+      const month = picked.reduce((s, i) => s + gnums[i], 0);
+      outMonth.classList.toggle("is-none", !picked.length);
+      outMonth.textContent = picked.length ? `+ ${money(month)}${cfg.dataset.monthly}` : outMonth.dataset.none;
+      const lines = [`${cfg.dataset.intro}`, `• ${names[plan]} — ${plan === 2 ? cfg.dataset.from + " " : ""}${money(nums[plan])} ${cfg.dataset.once}`, ...picked.map((i) => `• ${gnames[i]} — ${money(gnums[i])}${cfg.dataset.monthly}`)];
+      outWa.href = cfg.dataset.wa + encodeURIComponent(lines.join("\n"));
+    };
+    segs.forEach((b, i) => b.addEventListener("click", () => { plan = i; update(); }));
+    segs.forEach((b, i) => b.addEventListener("keydown", (e) => { if (e.key === "ArrowRight" || e.key === "ArrowLeft") { plan = (plan + (e.key === "ArrowRight" ? 1 : 2)) % 3; update(); segs[plan].focus(); e.preventDefault(); } }));
+    toggles.forEach((t) => t.addEventListener("change", update));
+    $$("[data-pick]", pricing).forEach((b) => b.addEventListener("click", () => { plan = +b.dataset.pick; update(); cfg.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "center" }); }));
+    update();
+    addEventListener("pointermove", (e) => { pricing.style.setProperty("--mx", (e.clientX / innerWidth * 2 - 1).toFixed(3)); }, { passive: true });
+  }
+
   /* ---------- intro elements ---------- */
   const intro = $("[data-intro]");
   const stage = $(".intro__stage");
@@ -91,9 +144,9 @@
   const cover = () => { const s = Math.max(W / FW, H / FH); return { s, x: (W - FW * s) / 2, y: (H - FH * s) / 2 }; };
   const logoRect = () => { const c = cover(); return { x: c.x + LOGO.x * c.s, y: c.y + LOGO.y * c.s, w: LOGO.w * c.s, h: LOGO.h * c.s }; };
   const heroRect = () => {
-    const h = mobile ? Math.min(H * 0.4, W * 0.95) : H * 0.72;
+    const h = mobile ? Math.min(H * 0.37, W * 0.9) : H * 0.72;
     const w = h * (520 / 806);
-    return { x: (W - w) / 2, y: mobile ? H * 0.1 : H * 0.11, w, h };
+    return { x: (W - w) / 2, y: mobile ? H * 0.115 : H * 0.11, w, h };
   };
   const fitMark = () => {
     mark.style.setProperty("--mark-size", "100px");
@@ -102,7 +155,7 @@
     const size = 100 * target / Math.max(1, widest);
     mark.style.setProperty("--mark-size", `${size.toFixed(1)}px`);
     const hr = heroRect();
-    mark.style.setProperty("--mark-y", `${(hr.y + hr.h * (mobile ? 1.04 : 0.68)).toFixed(0)}px`);
+    mark.style.setProperty("--mark-y", `${(hr.y + hr.h * (mobile ? 1.0 : 0.68)).toFixed(0)}px`);
   };
   const layout = () => {
     W = innerWidth; H = innerHeight; mobile = mqM.matches;
@@ -185,6 +238,7 @@
     }
     if (reach) { const r = reach.getBoundingClientRect(); reach.style.setProperty("--par", clamp((H - r.top) / (H + r.height)).toFixed(3)); }
     if (contact) { const r = contact.getBoundingClientRect(); contact.style.setProperty("--cp", clamp((H - r.top) / H).toFixed(3)); }
+    if (pricing) { const r = pricing.getBoundingClientRect(); if (r.top < H && r.bottom > 0) pricing.style.setProperty("--pp", clamp((H - r.top) / (H + r.height)).toFixed(3)); }
 
     /* header theme */
     let light = false, solid = y > 30;
@@ -197,7 +251,13 @@
 
   layout();
   addEventListener("resize", layout);
-  if (document.fonts) document.fonts.ready.then(layout);
+  /* the webfont arrives late (non-blocking stylesheet): re-fit the wordmark whenever a font finishes loading */
+  if (document.fonts) {
+    document.fonts.ready.then(layout);
+    document.fonts.addEventListener && document.fonts.addEventListener("loadingdone", layout);
+    document.fonts.load('900 100px "Archivo"').then(layout).catch(() => {});
+  }
+  if ("ResizeObserver" in window) { let lw = 0; new ResizeObserver(() => { const w = Math.round($(".mark__b", mark).getBoundingClientRect().width); if (Math.abs(w - lw) > 2) { lw = w; } }).observe(mark); }
   addEventListener("load", layout);
   mqM.addEventListener("change", () => location.reload());
   /* frames are only needed once the visitor scrolls: don't compete with the first paint */
