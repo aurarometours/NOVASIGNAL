@@ -197,7 +197,13 @@
 
   layout();
   addEventListener("resize", layout);
-  if (document.fonts) document.fonts.ready.then(layout);
+  /* the webfont arrives late (non-blocking stylesheet): re-fit the wordmark whenever a font finishes loading */
+  if (document.fonts) {
+    document.fonts.ready.then(layout);
+    document.fonts.addEventListener && document.fonts.addEventListener("loadingdone", layout);
+    document.fonts.load('900 100px "Archivo"').then(layout).catch(() => {});
+  }
+  if ("ResizeObserver" in window) { let lw = 0; new ResizeObserver(() => { const w = Math.round($(".mark__b", mark).getBoundingClientRect().width); if (Math.abs(w - lw) > 2) { lw = w; } }).observe(mark); }
   addEventListener("load", layout);
   mqM.addEventListener("change", () => location.reload());
   /* frames are only needed once the visitor scrolls: don't compete with the first paint */
