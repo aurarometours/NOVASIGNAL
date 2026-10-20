@@ -1,0 +1,30 @@
+name: Fetch assets
+on:
+  push:
+    branches: [gh-pages]
+    paths: [asset-fetch.txt]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+      - name: Download and verify (lines: URL SHA256 DEST)
+        run: |
+          while read -r URL SHA DEST; do
+            [ -z "$URL" ] && continue
+            mkdir -p "$(dirname "$DEST")"
+            curl -fsSL "$URL" -o "$DEST"
+            echo "$SHA  $DEST" | sha256sum -c
+          done < asset-fetch.txt
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898333+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Fetch assets listed in asset-fetch.txt"
+          git push
