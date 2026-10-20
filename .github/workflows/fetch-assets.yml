@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: gh-pages
-      - name: Download and verify (lines: URL SHA256 DEST)
+      - name: Download and verify each line (URL SHA256 DEST)
         run: |
           while read -r URL SHA DEST; do
             [ -z "$URL" ] && continue
