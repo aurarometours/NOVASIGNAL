@@ -1,0 +1,183 @@
+{
+  "when": "2026-10-19T19:09:45.475Z",
+  "runs": {
+    "desktop": {
+      "offsets": {
+        "vh": 900,
+        "hero": 0,
+        "heroH": 1710,
+        "sol": 1710,
+        "solH": 2070,
+        "method": 3780,
+        "methodH": 1350,
+        "offers": 5130,
+        "contact": 6357.90625,
+        "max": 6358,
+        "cls": "is-cinema world-ready"
+      },
+      "errors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ],
+      "kpi": {
+        "before": "24",
+        "after": "96"
+      },
+      "dialogClosed": true,
+      "dock": {
+        "docked": true,
+        "mini": [
+          1189.421875,
+          13.1875,
+          35.1875,
+          44
+        ],
+        "cta": [
+          1239,
+          15.1875,
+          152.984375,
+          40
+        ],
+        "nav": [
+          537.21875,
+          18.890625,
+          272.203125,
+          32.609375
+        ]
+      },
+      "reverse": {
+        "docked": false,
+        "hx": "0.000"
+      },
+      "stats": {
+        "fps": 17.627098726443084,
+        "dpr": 1,
+        "info": {
+          "frame": 221,
+          "calls": 11,
+          "triangles": 1664,
+          "points": 0,
+          "lines": 0
+        },
+        "mem": {
+          "geometries": 26,
+          "textures": 6
+        }
+      },
+      "fps": {
+        "avgFps": 1.7,
+        "p95FrameMs": 1583.3,
+        "frames": 6
+      },
+      "net": {
+        "requests": 11,
+        "transferKB": 396,
+        "largest": [
+          [
+            "world-CLp9mzZR.js",
+            146
+          ],
+          [
+            "cloud-a.webp",
+            73
+          ],
+          [
+            "cloud-b.webp",
+            60
+          ],
+          [
+            "sky-d.webp",
+            59
+          ],
+          [
+            "nova-glass.glb",
+            39
+          ],
+          [
+            "index-ClkZZ_Tk.css",
+            7
+          ]
+        ]
+      },
+      "vitals": {
+        "lcp": 22752,
+        "cls": 0
+      },
+      "jsHeapMB": 10,
+      "links": {
+        "total": 34,
+        "whatsapp": 15,
+        "mailto": 1,
+        "tel": 1,
+        "anchorsOk": true,
+        "other": []
+      },
+      "tabOrder": [
+        "Richiedi un'anteprima ↗",
+        "Esplora le soluzioni",
+        "Vedi i prezzi",
+        "tuosito.it",
+        "Scopri i siti",
+        "WhatsApp ↗",
+        "7g",
+        "30g",
+        "Scopri il software"
+      ]
+    },
+    "vitals-desktop": {
+      "lcp": 124,
+      "cls": 0,
+      "lcpElement": "A.btn btn--solid hd__cta",
+      "fcp": 124
+    },
+    "vitals-mobile": {
+      "lcp": 84,
+      "cls": 0,
+      "lcpElement": "SPAN.",
+      "fcp": 84
+    },
+    "mobile": {
+      "offsets": {
+        "vh": 844,
+        "hero": 0,
+        "heroH": 844,
+        "sol": 844,
+        "solH": 1784,
+        "method": 2627.8125,
+        "methodH": 1298,
+        "offers": 3925.96875,
+        "contact": 6548.671875,
+        "max": 6549,
+        "cls": "is-cinema world-ready"
+      },
+      "errors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ],
+      "menuOpen": true,
+      "overflowX": 0,
+      "vitals": {
+        "lcp": 25396,
+        "cls": 0
+      },
+      "transferKB": 350
+    },
+    "tablet": {
+      "errors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ],
+      "overflowX": 0
+    },
+    "reduced": {
+      "errors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ],
+      "classes": "is-static reduced no-mini-gl",
+      "pageHeightVh": 6.06
+    },
+    "nowebgl": {
+      "errors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ],
+      "classes": "is-static no-webgl no-mini-gl"
+    }
+  }
+}
