@@ -91,9 +91,9 @@
   const cover = () => { const s = Math.max(W / FW, H / FH); return { s, x: (W - FW * s) / 2, y: (H - FH * s) / 2 }; };
   const logoRect = () => { const c = cover(); return { x: c.x + LOGO.x * c.s, y: c.y + LOGO.y * c.s, w: LOGO.w * c.s, h: LOGO.h * c.s }; };
   const heroRect = () => {
-    const h = mobile ? Math.min(H * 0.4, W * 0.95) : H * 0.72;
+    const h = mobile ? Math.min(H * 0.37, W * 0.9) : H * 0.72;
     const w = h * (520 / 806);
-    return { x: (W - w) / 2, y: mobile ? H * 0.1 : H * 0.11, w, h };
+    return { x: (W - w) / 2, y: mobile ? H * 0.115 : H * 0.11, w, h };
   };
   const fitMark = () => {
     mark.style.setProperty("--mark-size", "100px");
@@ -102,7 +102,7 @@
     const size = 100 * target / Math.max(1, widest);
     mark.style.setProperty("--mark-size", `${size.toFixed(1)}px`);
     const hr = heroRect();
-    mark.style.setProperty("--mark-y", `${(hr.y + hr.h * (mobile ? 1.04 : 0.68)).toFixed(0)}px`);
+    mark.style.setProperty("--mark-y", `${(hr.y + hr.h * (mobile ? 1.0 : 0.68)).toFixed(0)}px`);
   };
   const layout = () => {
     W = innerWidth; H = innerHeight; mobile = mqM.matches;
