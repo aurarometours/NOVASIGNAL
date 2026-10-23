@@ -22,6 +22,7 @@ const page = (t) => {
   const R = en ? "../" : "./";
   const other = en ? "../" : "./en/";
   const letters = (word, side) => [...word].map((ch, i) => `<span class="mark__l" style="--i:${side === "a" ? i : i + 4}">${ch}</span>`).join("");
+  const KEY = { web: "web", brand: "brand", software: "soft", app: "app" };
   const svc = t.services.items.map((s, i) => `
         <article class="tile tile--${s.id} rv" aria-labelledby="t-${s.id}">
           <div class="tile__media"><picture><source media="(max-width: 760px)" srcset="${R}assets/img/${s.img}-s.webp"><img src="${R}assets/img/${s.img}.webp" alt="" loading="lazy" decoding="async" width="1400" height="788"></picture></div>
@@ -141,8 +142,26 @@ ${NOINDEX ? '<meta name="robots" content="noindex">\n' : ""}<meta name="theme-co
       <h2 class="head__t" id="svc-t">${t.services.title}</h2>
       <p class="head__lead">${t.services.lead}</p>
     </header>
-    <div class="tiles">${svc}
+  </section>
+
+  <section class="sw" data-sw data-theme="dark" aria-roledescription="carousel" aria-label="${t.services.kicker}">
+    <div class="sw__bg" aria-hidden="true">${t.services.items.map((x, i) => `<video data-k="${i}" muted loop playsinline preload="none" poster="${R}assets/img/sv-${KEY[x.id]}.webp" data-d="${R}assets/video/${KEY[x.id]}-d.mp4" data-m="${R}assets/video/${KEY[x.id]}-m.mp4" data-pm="${R}assets/img/sv-${KEY[x.id]}-m.webp"></video>`).join("")}</div>
+    <div class="sw__shade" aria-hidden="true"></div>
+    <div class="sw__copy" aria-live="polite">
+      <p class="sw__eye"><span class="msk"><span class="ln" data-sw-eye></span></span></p>
+      <h3 class="sw__title"><span class="msk"><span class="ln" data-sw-title></span></span></h3>
+      <i class="sw__rule" aria-hidden="true"></i>
+      <p class="sw__lede" data-sw-lede></p>
+      <ul class="sw__tags" data-sw-tags></ul>
+      <div class="sw__ctas">
+        <span class="sw__price" data-sw-price></span>
+        <button class="btn btn--light" type="button" data-sw-more><span>${t.services.more}</span>${ARROW}</button>
+        <a class="btn btn--glass" data-sw-wa href="${wa(t.ctaMsg)}" target="_blank" rel="noopener noreferrer">${WAICO}<span>WhatsApp</span></a>
+      </div>
     </div>
+    ${["l", "r"].map((side) => `<button class="lens lens--${side}" type="button" data-lens="${side}" aria-label="">${t.services.items.map((x, i) => `<img data-k="${i}" src="${R}assets/img/lens-${KEY[x.id]}.webp" alt="" width="520" height="520" loading="lazy">`).join("")}<span class="lens__lbl" data-lens-lbl></span></button>`).join("")}
+    <div class="sw__dots" role="tablist">${t.services.items.map((x, i) => `<button type="button" role="tab" data-dot="${i}" aria-label="${x.name}"><span>${x.n}</span><i></i></button>`).join("")}</div>
+    <script type="application/json" id="sw-data">${JSON.stringify(t.services.items.map((x) => ({ id: x.id, n: x.n, name: x.name, title: x.title, body: x.body, tags: x.tags, price: x.price, wa: wa(x.msg) }))).replace(/</g, "\\u003c")}</script>
   </section>
 
   <section class="reach" data-theme="dark" aria-labelledby="reach-t">

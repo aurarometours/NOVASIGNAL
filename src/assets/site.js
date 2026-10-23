@@ -46,6 +46,63 @@
   } else rvs.forEach((el) => el.classList.add("in"));
 
 
+  /* ---------- solutions switcher: featured world + edge lenses ---------- */
+  const sw = $("[data-sw]");
+  if (sw) {
+    const data = JSON.parse($("#sw-data").textContent);
+    const N = data.length, DUR = 9000;
+    const vids = $$(".sw__bg video", sw);
+    const lensL = $('[data-lens="l"]', sw), lensR = $('[data-lens="r"]', sw);
+    const dots = $$("[data-dot]", sw);
+    const out = { eye: $("[data-sw-eye]", sw), title: $("[data-sw-title]", sw), lede: $("[data-sw-lede]", sw), tags: $("[data-sw-tags]", sw), price: $("[data-sw-price]", sw), more: $("[data-sw-more]", sw), wa: $("[data-sw-wa]", sw) };
+    let cur = -1, visible = false, timer = 0, paused = false;
+    sw.style.setProperty("--sw-dur", DUR / 1000 + "s");
+    const arm = (v) => { if (!v.src && !reduced) { v.src = mobile ? v.dataset.m : v.dataset.d; if (mobile) v.poster = v.dataset.pm; } };
+    const play = () => { vids.forEach((v, k) => { if (k === cur && visible && !reduced) { arm(v); const p = v.play(); p && p.catch(() => {}); } else v.pause(); }); };
+    const pad = (n) => String(n).padStart(2, "0");
+    const show = (i, user) => {
+      i = (i + N) % N; if (i === cur) return; cur = i;
+      const d = data[i], l = (i - 1 + N) % N, r = (i + 1) % N;
+      vids.forEach((v, k) => v.classList.toggle("is-on", k === i));
+      if (mobile && !reduced) vids[i].poster = vids[i].dataset.pm;
+      $$("img", lensL).forEach((im) => im.classList.toggle("is-on", +im.dataset.k === l));
+      $$("img", lensR).forEach((im) => im.classList.toggle("is-on", +im.dataset.k === r));
+      $("[data-lens-lbl]", lensL).textContent = data[l].name; lensL.setAttribute("aria-label", data[l].name);
+      $("[data-lens-lbl]", lensR).textContent = data[r].name; lensR.setAttribute("aria-label", data[r].name);
+      out.eye.textContent = `${pad(i + 1)} / ${pad(N)} · ${d.name}`;
+      out.title.innerHTML = d.title;
+      out.lede.textContent = d.body;
+      out.tags.innerHTML = d.tags.map((t) => `<li>${t}</li>`).join("");
+      out.price.textContent = d.price;
+      out.wa.href = d.wa;
+      out.more.dataset.target = "d-" + d.id;
+      dots.forEach((b, k) => b.setAttribute("aria-selected", String(k === i)));
+      sw.classList.remove("go"); void sw.offsetWidth; sw.classList.add("go");
+      play(); restart();
+      if (user) { arm(vids[r]); }
+    };
+    const restart = () => { clearTimeout(timer); if (!reduced && visible && !paused) timer = setTimeout(() => show(cur + 1), DUR); };
+    const setPaused = (p) => { paused = p; sw.classList.toggle("is-paused", p); restart(); };
+    lensL.addEventListener("click", () => show(cur - 1, true));
+    lensR.addEventListener("click", () => show(cur + 1, true));
+    [lensL, lensR].forEach((b, s) => ["pointerenter", "focus"].forEach((ev) => b.addEventListener(ev, () => arm(vids[(cur + (s ? 1 : -1) + N) % N]))));
+    dots.forEach((b) => b.addEventListener("click", () => show(+b.dataset.dot, true)));
+    out.more.addEventListener("click", () => { const dl = document.getElementById(out.more.dataset.target); if (dl && dl.showModal) { dl.showModal(); dl.addEventListener("close", () => out.more.focus({ preventScroll: true }), { once: true }); } });
+    sw.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") { show(cur + 1, true); e.preventDefault(); } else if (e.key === "ArrowLeft") { show(cur - 1, true); e.preventDefault(); } });
+    sw.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") setPaused(true); });
+    sw.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") setPaused(false); });
+    sw.addEventListener("focusin", () => setPaused(true));
+    sw.addEventListener("focusout", (e) => { if (!sw.contains(e.relatedTarget)) setPaused(false); });
+    let sx = 0, sy = 0;
+    sw.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    sw.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) show(cur + (dx < 0 ? 1 : -1), true); }, { passive: true });
+    show(0);
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) sw.classList.add("seen"); play(); restart(); }, { threshold: 0.25 }).observe(sw);
+    } else { visible = true; sw.classList.add("seen"); play(); }
+    document.addEventListener("visibilitychange", () => { visible = !document.hidden && sw.getBoundingClientRect().top < innerHeight && sw.getBoundingClientRect().bottom > 0; play(); restart(); });
+  }
+
   /* ---------- pricing: entrance, card light, live quote ---------- */
   const pricing = $("[data-pricing]");
   if (pricing) {
